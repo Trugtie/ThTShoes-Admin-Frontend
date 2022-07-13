@@ -1,0 +1,70 @@
+.login-form__container{
+    width: 480px;
+    height: 686px;
+    position: relative;
+    display: flex;
+    align-items:center;
+}
+
+.login-logo{
+    position: absolute;
+    top:-3.5rem;
+    left:50%;
+    transform: translateX(-50%);
+}
+
+.login-form__bg{
+    width: 480px;
+    height: 576px;
+    background: rgba(207, 146, 105, 0.31);
+    border: 1px solid #FFFFFF;
+    border-radius: 26px;
+    padding: 0rem 3.9rem;
+}
+
+.login-username{
+    margin-top: 5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    position: relative;
+    text-align:left;
+}
+
+.login-password{
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    position: relative;
+    margin:1.5rem 0rem;
+    text-align:left;
+}
+
+.person-icon{
+    position:absolute;
+    top:50%;
+    transform: translateY(-50%);
+    width:29px !important;
+    height:29px !important;
+}
+
+.loginInput-label{
+    margin-left:2rem;
+}
+
+.css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused{
+    color:#B38775 !important;
+}
+.css-1oaaite-MuiTypography-root-MuiLink-root{
+    font-style: italic;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #FFFFFF !important;
+    transition: color .3s;
+}
+
+.css-1oaaite-MuiTypography-root-MuiLink-root:hover{
+    color: #1976d2 !important;
+}

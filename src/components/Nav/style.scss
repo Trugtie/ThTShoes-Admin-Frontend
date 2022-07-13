@@ -1,0 +1,95 @@
+.nav-container{
+    background-color: #000000;
+    width: 15vw;
+    height: 100vh;
+    transition: all .3s;
+}
+
+.nav-flex{
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    height: 100%;
+}
+
+.nav-header{
+    background-color: #3D0000;
+    padding:1rem 2rem;
+    position: relative;
+}
+
+.nav-content{
+    flex-grow: 1;
+}
+
+.nav-logo{
+    width: 100%;
+}
+
+#clock{
+    display: flex;
+    justify-content:center;
+}
+
+.user-info{
+    background: #252525;
+    border: 1px solid #FFFFFF;
+    margin-top: 1rem;
+    padding: .3rem 0rem;
+    font-size: .6rem;
+}
+
+.nav-button{
+    position: absolute;
+    background:#4F3828;
+    cursor: pointer;
+    top: 0;
+    right:-2.5rem;
+    z-index: 2;
+}
+
+.nav-button:hover{
+    background:#291e17;
+}
+
+
+.user-divider{
+    position: relative;
+}
+
+.user-divider::after, .user-divider::before{
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 2rem;
+    height: .1rem;
+    background-color:white;
+    top:50%;
+    transform: translateY(-50%);
+
+}
+
+.user-divider::before{
+    left:34.1%;
+}
+
+.user-divider::after{
+    right:34%;
+}
+
+.exitBtn{
+    height: 45px;
+    width: 45px;
+    border: none;
+    background-color: var(--button-color);
+    cursor: pointer;
+    transition: all .3s;
+}
+
+.exitBtn:hover{
+    background-color:#2e241d
+}
+
+.nav-footer{
+    text-align:left;
+}

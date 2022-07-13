@@ -1,0 +1,29 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --main-font: "Roboto", sans-serif;
+  --main-font-color: #fff;
+  --second-font-color: #000;
+  --button-color: #950101;
+  --button-green-color: #FF0000;
+}
+
+body {
+  font-family: var(--main-font);
+  font-size: 10px;
+  color: var(--main-font-color);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}

@@ -1,0 +1,41 @@
+.mySwiper{
+    height:18vh;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    position: relative;
+    margin: 0;
+}
+.swiper-button-prev::after,.swiper-button-next::after{
+    font-size: 25px;
+    color:white;
+}
+
+.slider-title{
+    z-index: 1;
+    position: absolute;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+.nav-button{
+    background:#000000;
+    cursor: pointer;
+}
+
+.nav-button:hover{
+    background:#291e17;
+}
+
+.nav-toggle{
+    position: fixed;
+    top: 0;
+    left:15%;
+    z-index: 99;
+    transition: all .3s;
+}
+
+.slice-btn{
+    left:0%;
+}

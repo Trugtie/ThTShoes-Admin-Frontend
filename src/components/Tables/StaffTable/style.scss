@@ -1,0 +1,72 @@
+.MTableToolbar-title-9{
+    display:none;
+}
+
+.MTableToolbar-spacer-7{
+    display:none;
+}
+
+.MTableToolbar-root-5{
+    display:flex !important;
+}
+
+.table-header{
+    display:flex;
+    justify-content:space-between;
+    flex-direction: row-reverse;
+    padding:1rem;
+    background-color: #F6F0EA;
+}
+
+.add-btn{
+    color: white;
+    height: 56px;
+    width: 56px;
+    border-radius: 28px;
+    background: var(--button-color);
+    border: none;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.add-btn:hover{
+    background-color:#a37552;
+}
+
+.MuiTableFooter-root{
+    background-color: #F6F0EA;
+}
+
+.MTableHeader-header-13{
+    background: #4F3828 !important;
+    color:white !important;
+}
+
+.MuiTableCell-body{
+    font-size: .8rem !important;
+}
+
+.MTablePaginationInner-root-14{
+    background: var(--button-color);
+    color:white !important;
+}
+
+.MTablePaginationInner-root-14 span{
+    color:white !important;
+}
+
+.MuiTableRow-root:hover{
+    background:#F6F0EA
+}
+
+.MuiTableSortLabel-root.MuiTableSortLabel-active{
+    color:white !important;
+}
+
+.MuiTableSortLabel-root:hover{
+    color:white !important;
+}
+.MuiTableSortLabel-icon{
+    color:white !important;
+}

@@ -1,0 +1,48 @@
+.add-btn{
+    color: white;
+    height: 56px;
+    width: 56px;
+    border-radius: 28px !important;
+    background: var(--button-color) !important;
+    border: none;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    transition: all 0.3s;
+    cursor: pointer;
+    min-width: 0px !important;
+}
+
+.add-btn:hover{
+    background-color:#a37552 !important;
+}
+
+.modal-title{
+    text-align: center;
+    background-color:var(--button-color);
+    border-radius: 20px 20px 0px 0px;
+    color:white;
+    padding:.5rem;
+    font-size: 1.3rem;
+}
+
+.modal-content{
+    padding: 2rem 5rem;
+}
+
+.modal-subtitle{
+    font-weight:700;
+    font-size: 1.3rem;
+}
+
+.modal-divider{
+    background-color: var(--button-color);
+}
+
+.modal-form{
+    padding:1rem 12rem;
+}
+
+@media screen and (max-height: 895px) {
+    .css-2s5s2x{
+        overflow-y:scroll;
+    }
+  }
