@@ -15,7 +15,11 @@
     justify-content:space-between;
     flex-direction: row-reverse;
     padding:1rem;
-    background-color: #F6F0EA;
+    background-color: white;
+}
+.table-title{
+    display:flex;
+    align-items: center;
 }
 
 .add-btn{
@@ -39,7 +43,7 @@
 }
 
 .MTableHeader-header-13{
-    background: #4F3828 !important;
+    background: #111111 !important;
     color:white !important;
 }
 
@@ -57,7 +61,7 @@
 }
 
 .MuiTableRow-root:hover{
-    background:#F6F0EA
+    background:#F6F0EA;
 }
 
 .MuiTableSortLabel-root.MuiTableSortLabel-active{

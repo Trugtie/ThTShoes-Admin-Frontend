@@ -7,10 +7,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 function Slider({ handle, title }) {
   const imgdata = [
-    "http://danangcanho.com.vn/wp-content/uploads/2018/06/Forest-City-banner.jpg",
-    "https://aquacityvn.vn/wp-content/uploads/2015/01/banner-aqua-city-2.jpg",
-    "https://drh.vn/FileUpload/Images/shutterstock_711277162.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/5/5f/New_York_City_skyline_banner.jpg",
+    "https://i0.wp.com/hypefun.vn/wp-content/uploads/2022/05/Screenshot-2022-05-21-at-4.06.59-PM.webp?resize=1160%2C680&ssl=1",
+    "https://cdn-amz.woka.io/images/I/81HP3qJzYhL.jpg",
+    "https://assets.entrepreneur.com/content/3x2/2000/20141205191530-married-entrepreneur-lots-shoes-fill.jpeg",
+    "https://wallpapercave.com/wp/wp10343222.jpg",
   ];
 
   return (

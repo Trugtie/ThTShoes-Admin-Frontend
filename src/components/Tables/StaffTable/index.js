@@ -43,12 +43,11 @@ export default function StaffTable() {
           Toolbar: (props) => (
             <div className="table-header">
               <MTableToolbar {...props} />
-              <div>
+              <div className="table-title">
                 <Typography
                   variant="h4"
-                  gutterBottom
                   component="div"
-                  style={{ color: "#CF9269" }}
+                  style={{ color: "black" }}
                   sx={{ fontWeight: "bold" }}
                 >
                   Danh sách nhân viên

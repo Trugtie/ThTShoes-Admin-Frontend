@@ -6,7 +6,7 @@ import React from "react";
 function App() {
   return (
     <div className="App">
-      {localStorage.getItem("user") ? (
+      {localStorage.getItem("userAdmin")==null ? (
         <React.Fragment>
           <MasterPage />
         </React.Fragment>

@@ -8,15 +8,16 @@
 
 .login-logo{
     position: absolute;
-    top:-3.5rem;
+    top:-6.5rem;
     left:50%;
+    max-width: 300px;
     transform: translateX(-50%);
 }
 
 .login-form__bg{
     width: 480px;
     height: 576px;
-    background: rgba(207, 146, 105, 0.31);
+    background: rgba(51, 51, 51, 0.31);
     border: 1px solid #FFFFFF;
     border-radius: 26px;
     padding: 0rem 3.9rem;
@@ -54,7 +55,7 @@
 }
 
 .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused{
-    color:#B38775 !important;
+    color:#000000 !important;
 }
 .css-1oaaite-MuiTypography-root-MuiLink-root{
     font-style: italic;

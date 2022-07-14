@@ -4,10 +4,14 @@ import { Link } from "react-router-dom";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import "./style.scss";
 import StaffIcon from "../../assets/staff.svg";
 import CustomerIcon from "../../assets/customer.svg";
+import SaleIcon from "../../assets/saleIcon.svg";
+import ProductIcon from "../../assets/productIcon.svg";
+import OrderIcon from "../../assets/orderIcon.svg";
+import CommentIcon from "../../assets/commentIcon.svg";
+
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
@@ -38,19 +42,14 @@ const AccordionSummary = styled((props) => (
     justifyContent: "space-between",
     alignItems: "center",
   },
+  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+    transform: "rotate(-90deg)",
+  },
   color: "white",
   fontSize: "14px",
   fontWeight: "700",
   padding: "0",
   minHeight: "35px",
-}));
-
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: theme.spacing(2),
-  borderTop: "1px solid rgba(0, 0, 0, .125)",
-  backgroundColor: "#85CF7E",
-  color: "white",
-  padding: "0",
 }));
 
 export default function CustomizedAccordion({ permission }) {
@@ -73,10 +72,10 @@ export default function CustomizedAccordion({ permission }) {
               id="panel2d-header"
               sx={{
                 "&:hover": {
-                  bgcolor: "green",
+                  bgcolor: "black",
                 },
                 "&:focus": {
-                  bgcolor: "green",
+                  bgcolor: "black",
                 },
               }}
             >
@@ -97,10 +96,10 @@ export default function CustomizedAccordion({ permission }) {
               id="panel1d-header"
               sx={{
                 "&:hover": {
-                  bgcolor: "green",
+                  bgcolor: "black",
                 },
                 "&:focus": {
-                  bgcolor: "green",
+                  bgcolor: "black",
                 },
               }}
             >
@@ -108,6 +107,102 @@ export default function CustomizedAccordion({ permission }) {
                 <img src={StaffIcon} />
               </div>
               <div className="acor-heading">QUẢN LÝ NHÂN VIÊN</div>
+            </AccordionSummary>
+          </Link>
+        </Accordion>
+        <Accordion
+          expanded={expanded === "panel3"}
+          onChange={handleChange("panel3")}
+        >
+          <Link to="/productmanagement" className="link">
+            <AccordionSummary
+              aria-controls="panel2d-content"
+              id="panel2d-header"
+              sx={{
+                "&:hover": {
+                  bgcolor: "black",
+                },
+                "&:focus": {
+                  bgcolor: "black",
+                },
+              }}
+            >
+              <div className="icon-bg">
+                <img src={ProductIcon} />
+              </div>
+              <div className="acor-heading">QUẢN LÝ SẢN PHẨM</div>
+            </AccordionSummary>
+          </Link>
+        </Accordion>
+        <Accordion
+          expanded={expanded === "panel4"}
+          onChange={handleChange("panel4")}
+        >
+          <Link to="/ordermanagement" className="link">
+            <AccordionSummary
+              aria-controls="panel3d-content"
+              id="panel3d-header"
+              sx={{
+                "&:hover": {
+                  bgcolor: "black",
+                },
+                "&:focus": {
+                  bgcolor: "black",
+                },
+              }}
+            >
+              <div className="icon-bg">
+                <img src={OrderIcon} />
+              </div>
+              <div className="acor-heading">QUẢN LÝ ĐƠN HÀNG</div>
+            </AccordionSummary>
+          </Link>
+        </Accordion>
+        <Accordion
+          expanded={expanded === "panel5"}
+          onChange={handleChange("panel5")}
+        >
+          <Link to="/salemanagement" className="link">
+            <AccordionSummary
+              aria-controls="panel4d-content"
+              id="panel4d-header"
+              sx={{
+                "&:hover": {
+                  bgcolor: "black",
+                },
+                "&:focus": {
+                  bgcolor: "black",
+                },
+              }}
+            >
+              <div className="icon-bg">
+                <img src={SaleIcon} />
+              </div>
+              <div className="acor-heading">QUẢN LÝ KHUYẾN MÃI</div>
+            </AccordionSummary>
+          </Link>
+        </Accordion>
+        <Accordion
+          expanded={expanded === "panel6"}
+          onChange={handleChange("panel6")}
+        >
+          <Link to="/feedbackmanagement" className="link">
+            <AccordionSummary
+              aria-controls="panel5d-content"
+              id="panel5d-header"
+              sx={{
+                "&:hover": {
+                  bgcolor: "black",
+                },
+                "&:focus": {
+                  bgcolor: "black",
+                },
+              }}
+            >
+              <div className="icon-bg">
+                <img src={CommentIcon} />
+              </div>
+              <div className="acor-heading">QUẢN LÝ BÌNH LUẬN</div>
             </AccordionSummary>
           </Link>
         </Accordion>
