@@ -11,8 +11,8 @@ const userApi = {
       },
     });
   },
-  getMe: async (payload) => {
-    const url = `/nhanvien/${payload}`;
+  getMe: async () => {
+    const url = `/nhanvien/info`;
     const { data } = await authAxios.get(`${API_URL}${url}`);
     return data;
   },

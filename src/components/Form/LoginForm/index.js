@@ -1,19 +1,24 @@
 import LockIcon from "@mui/icons-material/Lock";
 import PersonIcon from "@mui/icons-material/Person";
 import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import LoginFormLogo from "../../../assets/LoginLogo.png";
 import "./style.scss";
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 import { getMyInfo, login } from "../../Nav/userSlice";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Grid from "@mui/material/Grid";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [errorMes, setErrorMes] = useState(false);
   const LoginButton = styled(Button)({
     backgroundColor: "var(--button-color)",
     margin: "36px 0px",
@@ -47,12 +52,16 @@ function LoginForm() {
   });
 
   const onSubmit = async (data) => {
-    // const signInResult = await dispatch(login(data));
-    // const userID = await getID();
-    // const getMeResult = await dispatch(getMyInfo(userID))
-    //   .unwrap()
-    //   .then((originalPromiseResult) => {
-    //   });
+    await dispatch(login(data));
+    dispatch(getMyInfo())
+      .unwrap()
+      .then((originalPromiseResult) => {
+        navigate("/");
+      })
+      .catch(() => {
+        setErrorMes(true);
+        setTimeout(() => setErrorMes(false), 3000);
+      });
   };
 
   return (
@@ -135,11 +144,19 @@ function LoginForm() {
               <p>{errors.password?.message}</p>
             </Grid>
           )}
+
           <br />
           <br />
           <LoginButton variant="contained" fullWidth type="submit">
             ĐĂNG NHẬP
           </LoginButton>
+          {errorMes && (
+            <Grid item xs={12} sx={{ textAlign: "left" }}>
+              <Alert variant="filled" severity="error">
+                Sai tài khoản hoặc mật khẩu
+              </Alert>
+            </Grid>
+          )}
           <br />
         </div>
       </form>

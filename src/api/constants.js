@@ -12,10 +12,7 @@ export const authAxios = axios.create({
 authAxios.interceptors.request.use(async (config) => {
   const customHeaders = {};
 
-  //const accessToken = localStorage.getItem("admin_access_token");
-
-  const accessToken =
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsIm1hbmd1b2lkdW5nIjoiTlY0IiwiaWF0IjoxNjU3Nzg5NjUyLCJleHAiOjE2NTkzOTQ0NTJ9.veueWzTp0u3rqJ7UlINbaJYDsJZFYiAynhXGz57P2zZOonPu_8cNu34jnhK3B5XqHC78DyVj6IrK6DmFE383cQ";
+  const accessToken = localStorage.getItem("admin_access_token");
 
   if (accessToken) {
     customHeaders.Authorization = "Bearer " + accessToken;

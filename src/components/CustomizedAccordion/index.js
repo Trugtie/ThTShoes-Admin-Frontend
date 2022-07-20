@@ -1,9 +1,5 @@
 import React from "react";
-import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MuiAccordion from "@mui/material/Accordion";
-import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import "./style.scss";
 import StaffIcon from "../../assets/staff.svg";
 import CustomerIcon from "../../assets/customer.svg";
@@ -11,46 +7,7 @@ import SaleIcon from "../../assets/saleIcon.svg";
 import ProductIcon from "../../assets/productIcon.svg";
 import OrderIcon from "../../assets/orderIcon.svg";
 import CommentIcon from "../../assets/commentIcon.svg";
-
-const Accordion = styled((props) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
-  border: `1px solid ${theme.palette.divider}`,
-  "&:not(:last-child)": {
-    borderBottom: 0,
-  },
-  "&:before": {
-    display: "none",
-  },
-}));
-
-const AccordionSummary = styled((props) => (
-  <MuiAccordionSummary
-    expandIcon={
-      <ExpandMoreIcon
-        sx={{ fontSize: "1.4rem", color: "white", width: "25px" }}
-      />
-    }
-    {...props}
-  />
-))(({ theme }) => ({
-  backgroundColor: "var(--button-color)",
-  flexDirection: "row",
-  "& .MuiAccordionSummary-content": {
-    margin: 0,
-    height: "35px",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-    transform: "rotate(-90deg)",
-  },
-  color: "white",
-  fontSize: "14px",
-  fontWeight: "700",
-  padding: "0",
-  minHeight: "35px",
-}));
+import { Accordion, AccordionSummary } from "./style";
 
 export default function CustomizedAccordion({ permission }) {
   const [expanded, setExpanded] = React.useState("");
@@ -60,7 +17,7 @@ export default function CustomizedAccordion({ permission }) {
   };
 
   return (
-    <div>
+    <div className="accordion-container">
       <React.Fragment>
         <Accordion
           expanded={expanded === "panel1"}

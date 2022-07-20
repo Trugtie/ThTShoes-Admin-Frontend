@@ -1,104 +1,57 @@
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Modal from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
-import { duyetDonHang } from "../../Tables/OrderTable/orderSlice";
-import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { duyetDonHang } from "../../Tables/OrderTable/orderSlice";
+import { useState, useEffect } from "react";
+import orderApi from "../../../api/orderApi";
+import {
+  ColorButton,
+  ColorButtonRed,
+  style,
+  StyledTableCell,
+  StyledTableRow,
+} from "../Styles";
 
 export default function OrderModal({ order, isOpen, isClose }) {
   const dispatch = useDispatch();
-  const dateCreate = new Date(order.ngaytao);
+
+  const [data, setData] = useState(null);
+  console.log(data);
+
+  useEffect(() => {
+    async function getById() {
+      const result = await orderApi.getById(order.madon);
+      setData(result);
+    }
+    getById();
+  }, [order]);
+
+  return <>{data && returnModal(data, isOpen, isClose, dispatch)}</>;
+}
+
+function returnModal(data, isOpen, isClose, dispatch) {
+  const dateCreate = new Date(data.ngaytao);
   const date = `${dateCreate.getDate()}/${dateCreate.getMonth()}/${dateCreate.getFullYear()} - ${dateCreate.getHours()}:${dateCreate.getMinutes()}:${dateCreate.getSeconds()}`;
   const status =
-    order.tinhtrang === "DAGIAO"
+    data.tinhtrang === "DAGIAO"
       ? "Đã giao"
-      : order.tinhtrang === "CHODUYET"
+      : data.tinhtrang === "CHODUYET"
       ? "Chờ duyệt"
-      : order.tinhtrang === "DADUYET"
+      : data.tinhtrang === "DADUYET"
       ? "Đã duyệt"
       : "Từ chối";
-
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-      fontSize: ".8rem",
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: "1.2rem",
-      height: "1rem",
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-    "&:hover": {
-      transition: "all .3s",
-      backgroundColor: "rgba(0, 0, 0, .2)",
-    },
-  }));
-
-  const ColorButton = styled(Button)(({ theme }) => ({
-    color: "white",
-    fontWeight: "bolder",
-    width: "100%",
-    backgroundColor: "var(--button-color)",
-    "&:hover": {
-      backgroundColor: "black",
-    },
-  }));
-  const ColorButtonRed = styled(Button)(({ theme }) => ({
-    color: "white",
-    fontWeight: "bolder",
-    width: "100%",
-    backgroundColor: "#9b0000",
-    "&:hover": {
-      backgroundColor: "black",
-    },
-  }));
-
-  const DeleteButton = styled(Button)(({ theme }) => ({
-    color: "white",
-    fontWeight: "bolder",
-    width: "100%",
-    backgroundColor: "rgb(181, 32, 23)",
-    "&:hover": {
-      backgroundColor: "red",
-    },
-  }));
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "100%",
-    maxWidth: 1181,
-    height: "100%",
-    maxHeight: 895,
-    bgcolor: "#FBF6F3",
-    color: "black",
-    borderRadius: "20px 20px 10px 10px;",
-    boxShadow: 24,
-  };
-
   return (
     <Modal
+      className="modal-container"
       open={isOpen}
       onClose={isClose}
       aria-labelledby="modal-modal-title"
@@ -116,7 +69,7 @@ export default function OrderModal({ order, isOpen, isClose }) {
                   id="filled-basic"
                   label="Mã đơn"
                   variant="filled"
-                  defaultValue={order.madon}
+                  defaultValue={data.madon}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -127,7 +80,7 @@ export default function OrderModal({ order, isOpen, isClose }) {
                   id="filled-basic"
                   label="Người nhận"
                   variant="filled"
-                  defaultValue={order.nguoinhan}
+                  defaultValue={data.nguoinhan}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -151,9 +104,9 @@ export default function OrderModal({ order, isOpen, isClose }) {
                   variant="filled"
                   fullWidth
                   defaultValue={
-                    order.khachvanglai === null
-                      ? order.khachHang.sdt
-                      : order.khachvanglai.sdt
+                    data.khachvanglai === null
+                      ? data.khachHang.sdt
+                      : data.khachvanglai.sdt
                   }
                   InputProps={{
                     readOnly: true,
@@ -166,7 +119,7 @@ export default function OrderModal({ order, isOpen, isClose }) {
                   label="Mã khuyến mãi"
                   variant="filled"
                   defaultValue={
-                    order.makhuyenmai === null ? "Không có" : order.makhuyenmai
+                    data.makhuyenmai === null ? "Không có" : data.makhuyenmai
                   }
                   InputProps={{
                     readOnly: true,
@@ -191,9 +144,9 @@ export default function OrderModal({ order, isOpen, isClose }) {
                   variant="filled"
                   fullWidth
                   defaultValue={
-                    order.khachvanglai === null
-                      ? order.khachHang.diachi
-                      : order.khachvanglai.diachi
+                    data.khachvanglai === null
+                      ? data.khachHang.diachi
+                      : data.khachvanglai.diachi
                   }
                 />
               </Grid>
@@ -201,7 +154,7 @@ export default function OrderModal({ order, isOpen, isClose }) {
           </div>
           <h2 className="modal-subtitle">Chi tiết đơn hàng</h2>
           <hr className="modal-divider" />
-          <div className="modal-form" style={{ marginTop: "2rem" }}>
+          <div className="modal-form modal-form--detail" style={{ marginTop: "2rem" }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TableContainer component={Paper}>
@@ -215,6 +168,10 @@ export default function OrderModal({ order, isOpen, isClose }) {
                         <StyledTableCell align="center">
                           Tên sản phẩm
                         </StyledTableCell>
+                        <StyledTableCell align="center">Size</StyledTableCell>
+                        <StyledTableCell align="center">
+                          Màu sắc
+                        </StyledTableCell>
                         <StyledTableCell align="center">
                           Số lượng
                         </StyledTableCell>
@@ -224,14 +181,26 @@ export default function OrderModal({ order, isOpen, isClose }) {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {order.giayDonhangs.map((row) => {
+                      {data.giayDonhangs.map((row) => {
                         return (
-                          <StyledTableRow key={row.magiay}>
+                          <StyledTableRow
+                            key={
+                              row.giay.magiay +
+                              row.size.tensize +
+                              row.mausac.mamau
+                            }
+                          >
                             <StyledTableCell component="th" scope="row">
-                              {row.magiay}
+                              {row.giay.magiay}
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                              {row.tengiay}
+                              {row.giay.tengiay}
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              {row.size.tensize}
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              {row.mausac.tenmau}
                             </StyledTableCell>
                             <StyledTableCell align="center">
                               {row.soluong} sản phẩm
@@ -245,7 +214,7 @@ export default function OrderModal({ order, isOpen, isClose }) {
                           </StyledTableRow>
                         );
                       })}
-                      {order.phukienDonhangs.map((row) => {
+                      {data.phukienDonhangs.map((row) => {
                         return (
                           <StyledTableRow key={row.maphukien}>
                             <StyledTableCell component="th" scope="row">
@@ -255,6 +224,12 @@ export default function OrderModal({ order, isOpen, isClose }) {
                               {row.tenphukien}
                             </StyledTableCell>
                             <StyledTableCell align="center">
+                              Không có
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              Không có
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
                               {row.soluong} sản phẩm
                             </StyledTableCell>
                             <StyledTableCell align="center">
@@ -267,19 +242,19 @@ export default function OrderModal({ order, isOpen, isClose }) {
                         );
                       })}
                       <StyledTableRow>
-                        <StyledTableCell align="center" colSpan={2}>
+                        <StyledTableCell align="center" colSpan={3}>
                           Tổng số lượng sản phẩm:
                         </StyledTableCell>
-                        <StyledTableCell align="center" colSpan={2}>
-                          {order.soluong} sản phẩm
+                        <StyledTableCell align="center" colSpan={3}>
+                          {data.soluong} sản phẩm
                         </StyledTableCell>
                       </StyledTableRow>
                       <StyledTableRow>
-                        <StyledTableCell align="center" colSpan={2}>
+                        <StyledTableCell align="center" colSpan={3}>
                           Tổng giá tiền đơn hàng:
                         </StyledTableCell>
-                        <StyledTableCell align="center" colSpan={2}>
-                          {order.tonggia.toLocaleString("vi-VN", {
+                        <StyledTableCell align="center" colSpan={3}>
+                          {data.tonggia.toLocaleString("vi-VN", {
                             style: "currency",
                             currency: "VND",
                           })}
@@ -293,12 +268,12 @@ export default function OrderModal({ order, isOpen, isClose }) {
           </div>
           <div className="modal-form" style={{ marginTop: "3rem" }}>
             <Grid container spacing={2}>
-              {order.tinhtrang === "CHODUYET" ? (
+              {data.tinhtrang === "CHODUYET" ? (
                 <>
                   <Grid item xs={6}>
                     <ColorButton
                       onClick={() => {
-                        const payload = { madonhang: order.madon };
+                        const payload = { madonhang: data.madon };
                         dispatch(duyetDonHang(payload))
                           .then((originalPromiseResult) => {
                             toast.success("Duyệt đơn thành công");
@@ -318,7 +293,7 @@ export default function OrderModal({ order, isOpen, isClose }) {
                       variant="contained"
                       onClick={() => {
                         const payload = {
-                          madonhang: order.madon,
+                          madonhang: data.madon,
                           tinhTrang: "TUCHOI",
                         };
                         dispatch(duyetDonHang(payload))
@@ -335,13 +310,13 @@ export default function OrderModal({ order, isOpen, isClose }) {
                     </ColorButtonRed>
                   </Grid>
                 </>
-              ) : order.tinhtrang === "DADUYET" ? (
+              ) : data.tinhtrang === "DADUYET" ? (
                 <>
                   <Grid item xs={12}>
                     <ColorButton
                       variant="contained"
                       onClick={() => {
-                        const payload = { madonhang: order.madon };
+                        const payload = { madonhang: data.madon };
                         dispatch(duyetDonHang(payload))
                           .then((originalPromiseResult) => {
                             toast.success("Hoàn thành đơn hàng");

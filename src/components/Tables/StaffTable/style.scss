@@ -1,76 +1,88 @@
-.MTableToolbar-title-9{
-    display:none;
-}
+.table-mui-container {
+  .css-1313egv-MuiTypography-root {
+    margin: 0;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 2.125rem;
+    line-height: 1.235;
+    letter-spacing: 0.00735em;
+    font-weight: 700;
+  }
 
-.MTableToolbar-spacer-7{
-    display:none;
-}
+  div[class^="MTableToolbar-title-"] {
+    display: none;
+  }
 
-.MTableToolbar-root-5{
-    display:flex !important;
-}
+  div[class^="MTableToolbar-spacer-"] {
+    display: none;
+  }
 
-.table-header{
-    display:flex;
-    justify-content:space-between;
+  div[class^="MTableToolbar-root-"] {
+    display: flex !important;
+  }
+
+  .table-header {
+    display: flex;
+    justify-content: space-between;
     flex-direction: row-reverse;
-    padding:1rem;
+    padding: 1rem;
     background-color: white;
-}
-.table-title{
-    display:flex;
+  }
+  .table-title {
+    display: flex;
     align-items: center;
-}
+  }
 
-.add-btn{
+  .add-btn {
     color: white;
     height: 56px;
     width: 56px;
     border-radius: 28px;
     background: var(--button-color);
     border: none;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     transition: all 0.3s;
     cursor: pointer;
-}
+  }
 
-.add-btn:hover{
-    background-color:#a37552;
-}
+  .add-btn:hover {
+    background-color: #a37552;
+  }
 
-.MuiTableFooter-root{
-    background-color: #F6F0EA;
-}
+  .MuiTableFooter-root {
+    background-color: #f6f0ea;
+  }
 
-.MTableHeader-header-13{
+  .MuiTableRow-head th {
     background: #111111 !important;
-    color:white !important;
-}
+    color: white !important;
+  }
 
-.MuiTableCell-body{
-    font-size: .8rem !important;
-}
+  .MuiTableCell-body {
+    font-size: 0.8rem !important;
+  }
 
-.MTablePaginationInner-root-14{
+  div[class^="MTablePaginationInner-root-"] {
     background: var(--button-color);
-    color:white !important;
-}
+    color: white !important;
+  }
 
-.MTablePaginationInner-root-14 span{
-    color:white !important;
-}
+  div[class^="MTablePaginationInner-root-"] span {
+    color: white !important;
+  }
 
-.MuiTableRow-root:hover{
-    background:#F6F0EA;
-}
+  .MuiTableRow-root:hover {
+    background: #f6f0ea;
+  }
 
-.MuiTableSortLabel-root.MuiTableSortLabel-active{
-    color:white !important;
-}
+  .MuiTableSortLabel-root.MuiTableSortLabel-active {
+    color: white !important;
+  }
 
-.MuiTableSortLabel-root:hover{
-    color:white !important;
-}
-.MuiTableSortLabel-icon{
-    color:white !important;
+  .MuiTableSortLabel-root:hover {
+    color: white !important;
+  }
+  .MuiTableSortLabel-icon {
+    color: white !important;
+  }
 }

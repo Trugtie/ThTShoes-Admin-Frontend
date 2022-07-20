@@ -1,56 +1,21 @@
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Modal from "@mui/material/Modal";
 import Select from "@mui/material/Select";
-import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
+import { ColorButton, style } from "../Styles";
 import "./style.scss";
 
 export default function BasicModal({ staff, isOpen, isClose }) {
   const [trangthai, setTrangthai] = useState("0");
 
-  const ColorButton = styled(Button)(({ theme }) => ({
-    color: "white",
-    fontWeight: "bolder",
-    width: "100%",
-    backgroundColor: "var(--button-color)",
-    "&:hover": {
-      backgroundColor: "#80583b",
-    },
-  }));
-
-  const DeleteButton = styled(Button)(({ theme }) => ({
-    color: "white",
-    fontWeight: "bolder",
-    width: "100%",
-    backgroundColor: "rgb(181, 32, 23)",
-    "&:hover": {
-      backgroundColor: "red",
-    },
-  }));
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "100%",
-    maxWidth: 1181,
-    height: "100%",
-    maxHeight: 895,
-    bgcolor: "#FBF6F3",
-    color: "black",
-    borderRadius: "20px 20px 10px 10px;",
-    boxShadow: 24,
-  };
-
   return (
     <Modal
+      className="modal-container"
       open={isOpen}
       onClose={isClose}
       aria-labelledby="modal-modal-title"

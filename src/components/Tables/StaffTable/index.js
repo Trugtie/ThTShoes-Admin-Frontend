@@ -14,7 +14,7 @@ export default function StaffTable() {
   };
 
   return (
-    <div>
+    <div className="table-mui-container">
       <MaterialTable
         columns={[
           { title: "ID", field: "nvid" },

@@ -1,55 +1,20 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
-import TextField from "@mui/material/TextField";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
-import { styled } from "@mui/material/styles";
+import MenuItem from "@mui/material/MenuItem";
+import Modal from "@mui/material/Modal";
+import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
+import * as React from "react";
+import { ColorButton, DeleteButton, style } from "../Styles";
 
 export default function CustomerModal({ cus, isOpen, isClose }) {
-  const ColorButton = styled(Button)(({ theme }) => ({
-    color: "white",
-    fontWeight: "bolder",
-    width: "100%",
-    backgroundColor: "var(--button-color)",
-    "&:hover": {
-      backgroundColor: "#80583b",
-    },
-  }));
-
-  const DeleteButton = styled(Button)(({ theme }) => ({
-    color: "white",
-    fontWeight: "bolder",
-    width: "100%",
-    backgroundColor: "rgb(181, 32, 23)",
-    "&:hover": {
-      backgroundColor: "red",
-    },
-  }));
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "100%",
-    maxWidth: 1181,
-    height: "100%",
-    maxHeight: 895,
-    bgcolor: "#FBF6F3",
-    color: "black",
-    borderRadius: "20px 20px 10px 10px;",
-    boxShadow: 24,
-  };
-
   const [trangthai, setTrangthai] = React.useState("0");
 
   return (
     <Modal
+      className="modal-container"
       open={isOpen}
       onClose={isClose}
       aria-labelledby="modal-modal-title"

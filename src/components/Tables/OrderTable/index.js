@@ -14,14 +14,13 @@ export default function OrderTable() {
     setOrder(
       list.find((item) => {
         return item.madon === data.madon;
-        
       })
     );
     setOpen(true);
   };
 
   return (
-    <div>
+    <div className='table-mui-container'>
       <MaterialTable
         columns={[
           { title: "ID", field: "madon" },
@@ -93,7 +92,9 @@ export default function OrderTable() {
           pageSizeOptions: [10, 15, 20],
         }}
       />
-      {order&&<OrderModal order={order} isOpen={open} isClose={handleClose} />}
+      {order && (
+        <OrderModal order={order} isOpen={open} isClose={handleClose} />
+      )}
     </div>
   );
 }

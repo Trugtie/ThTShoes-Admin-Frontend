@@ -1,14 +1,17 @@
-import Link from '@mui/material/Link';
+import Link from "@mui/material/Link";
 import { useEffect, useState } from "react";
-import CustomizedAccordion from "../Accordion";
+import CustomizedAccordion from "../CustomizedAccordion";
 import ClockCircle from "../ClockCircle";
 import StaffModal from "../Modal/StaffModal";
 import ExitIcon from "../../assets/exit.svg";
 import Logo from "../../assets/logo.svg";
 import "./style.scss";
+import { useDispatch } from "react-redux";
+import userSlice from "./userSlice";
 import StarIcon from "../../assets/star.svg";
 
 function Nav() {
+  const dispatch = useDispatch();
   useEffect(() => {
     ClockCircle();
   }, []);
@@ -19,7 +22,10 @@ function Nav() {
   const handleOpen = (staff) => {
     setStaff(staff);
     setOpen(true);
-  }
+  };
+  const handleExit = () => {
+    dispatch(userSlice.actions.logout());
+  };
 
   return (
     <header>
@@ -29,9 +35,7 @@ function Nav() {
             <img className="nav-logo" src={Logo} alt="Logo" />
             <div id="clock"></div>
             <div className="user-info">
-              <h3 className="user-role">
-                Nhan vien quan ly
-              </h3>
+              <h3 className="user-role">Nhan vien quan ly</h3>
               <div className="user-divider">
                 <img className="user-star" src={StarIcon} />
               </div>
@@ -49,7 +53,7 @@ function Nav() {
             <CustomizedAccordion />
           </div>
           <div className="nav-footer">
-            <button className="exitBtn">
+            <button className="exitBtn" onClick={handleExit}>
               <img src={ExitIcon} />
             </button>
           </div>

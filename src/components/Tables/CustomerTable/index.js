@@ -15,7 +15,7 @@ export default function CustomerTable() {
   };
 
   return (
-    <div>
+    <div className='table-mui-container'>
       <MaterialTable
         columns={[
           { title: "ID", field: "khid" },
@@ -30,13 +30,20 @@ export default function CustomerTable() {
           },
         ]}
         data={[
-          { khid: "kh1", hoten: "Baran", sodienthoai: 12345678910, email: "dasd@gmail.com",diachi:'asadasda',trangthai:'0' }
+          {
+            khid: "kh1",
+            hoten: "Baran",
+            sodienthoai: 12345678910,
+            email: "dasd@gmail.com",
+            diachi: "asadasda",
+            trangthai: "0",
+          },
         ]}
         components={{
           Toolbar: (props) => (
             <div className="table-header">
               <MTableToolbar {...props} />
-              <div className='table-title'>
+              <div className="table-title">
                 <Typography
                   variant="h4"
                   component="div"
