@@ -3,13 +3,23 @@ import "./style.scss";
 import StaffModal from "../../Modal/StaffModal";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { staffsSelector } from "../../../redux/selectors";
 
 export default function StaffTable() {
+  const list = useSelector(staffsSelector);
+  console.log(list);
   const [open, setOpen] = useState(false);
-  const [staffEdit, setStaff] = useState(null);
+  const [staff, setStaff] = useState(null);
   const handleClose = () => setOpen(false);
-  const handleOpen = (staff) => {
-    setStaff(staff);
+  const handleOpen = (data) => {
+    data
+      ? setStaff(
+          list.find((item) => {
+            return item.manv === data.nvid;
+          })
+        )
+      : setStaff("add");
     setOpen(true);
   };
 
@@ -19,26 +29,31 @@ export default function StaffTable() {
         columns={[
           { title: "ID", field: "nvid" },
           { title: "Họ tên", field: "tennv" },
-          { title: "SĐT", field: "sdt", type: "numeric" },
+          { title: "SĐT", field: "sdt" },
           { title: "Email", field: "email" },
           { title: "Địa chỉ", field: "diachi" },
-          { title: "Quyền", field: "quyen" },
+          {
+            title: "Quyền",
+            field: "quyen",
+            lookup: { NHANVIEN: "Nhân viên", ADMIN: "Admin" },
+          },
           {
             title: "Trạng thái",
             field: "trangthai",
-            lookup: { 0: "Available", 1: "Blocked" },
+            lookup: { 1: "Hoạt động", 0: "Bị khóa" },
           },
         ]}
-        data={[
-          {
-            khid: "kh1",
-            hoten: "Baran",
-            sodienthoai: 12345678910,
-            email: "dasd@gmail.com",
-            diachi: "asadasda",
-            trangthai: "0",
-          },
-        ]}
+        data={list.map((item) => {
+          return {
+            nvid: item.manv,
+            tennv: item.ho + " " + item.ten,
+            sdt: item.sdt,
+            email: item.taiKhoan.email,
+            diachi: item.diachi,
+            quyen: item.taiKhoan.quyen,
+            trangthai: item.taiKhoan.tinhtrang,
+          };
+        })}
         components={{
           Toolbar: (props) => (
             <div className="table-header">
@@ -77,7 +92,9 @@ export default function StaffTable() {
           pageSizeOptions: [10, 15, 20],
         }}
       />
-      <StaffModal staff={staffEdit} isOpen={open} isClose={handleClose} />
+      {staff && (
+        <StaffModal staff={staff} isOpen={open} isClose={handleClose} />
+      )}
     </div>
   );
 }

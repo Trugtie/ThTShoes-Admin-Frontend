@@ -1,16 +1,15 @@
-import "./style.scss";
-import StaffTable from "../../components/Tables/StaffTable";
+import SaleTable from "../../components/Tables/SaleTable";
 import { useDispatch } from "react-redux";
-import { fetchStaff } from "../../components/Tables/StaffTable/staffSlice";
+import { fetchSale } from "../../components/Tables/SaleTable/saleSlice";
 import LoadingSpinner from "../../components/LoadingSpiner";
 import { useEffect, useState } from "react";
 
-function StaffManagement() {
+function SaleManagement() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchStaff())
+    dispatch(fetchSale())
       .unwrap()
       .then((originalPromiseResult) => {
         setTimeout(() => {
@@ -21,9 +20,9 @@ function StaffManagement() {
 
   return (
     <div className="StaffManagement-container">
-      {isLoading ? <LoadingSpinner /> : <StaffTable />}
+      {isLoading ? <LoadingSpinner /> : <SaleTable />}
     </div>
   );
 }
 
-export default StaffManagement;
+export default SaleManagement;

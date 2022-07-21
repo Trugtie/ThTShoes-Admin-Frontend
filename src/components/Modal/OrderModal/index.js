@@ -154,14 +154,17 @@ function returnModal(data, isOpen, isClose, dispatch) {
           </div>
           <h2 className="modal-subtitle">Chi tiết đơn hàng</h2>
           <hr className="modal-divider" />
-          <div className="modal-form modal-form--detail" style={{ marginTop: "2rem" }}>
+          <div
+            className="modal-form modal-form--detail"
+            style={{ marginTop: "2rem" }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <TableContainer component={Paper}>
-                  <Table
-                    sx={{ minWidth: 500, maxHeight: 350 }}
-                    aria-label="customized table"
-                  >
+                <TableContainer
+                  component={Paper}
+                  sx={{ minWidth: 500, maxHeight: 350 }}
+                >
+                  <Table stickyHeader  aria-label="customized table">
                     <TableHead>
                       <TableRow>
                         <StyledTableCell>Mã sản phẩm</StyledTableCell>

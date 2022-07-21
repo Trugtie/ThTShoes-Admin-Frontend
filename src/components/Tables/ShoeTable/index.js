@@ -3,10 +3,10 @@ import OrderModal from "../../Modal/OrderModal";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { ordersSelector } from "../../../redux/selectors";
+import { shoesSelector } from "../../../redux/selectors";
 
-export default function OrderTable() {
-  const list = useSelector(ordersSelector);
+export default function ShoeTable() {
+  const list = useSelector(shoesSelector);
   const [open, setOpen] = useState(false);
   const [order, setOrder] = useState(null);
   const handleClose = () => setOpen(false);
@@ -20,45 +20,52 @@ export default function OrderTable() {
   };
 
   return (
-    <div className='table-mui-container'>
+    <div className="table-mui-container">
       <MaterialTable
         columns={[
-          { title: "ID", field: "madon" },
-          { title: "Ngày tạo", field: "ngaytao" },
-          { title: "Người nhận", field: "nguoinhan" },
-          { title: "SĐT", field: "sdt" },
-          { title: "Địa chỉ", field: "diachi" },
-          { title: "Tổng tiền", field: "tonggia" },
           {
-            title: "Tình trạng",
-            field: "tinhtrang",
-            lookup: {
-              DAGIAO: "Đã giao",
-              CHODUYET: "Chờ duyệt",
-              DADUYET: "Đã duyệt",
-              TUCHOI: "Từ chối",
+            title: "ID",
+            field: "id",
+            cellStyle: {
+              maxWidth: "10px",
             },
           },
+          {
+            title: "Hình",
+            field: "hinh",
+            render: (rowData) => (
+              <img
+                src={rowData.hinh}
+                style={{ width: "100px", height: "100px" }}
+              />
+            ),
+            cellStyle: {
+              padding: ".5rem 0rem",
+            },
+          },
+          { title: "Tên giày", field: "tengiay" },
+          {
+            title: "Mô tả",
+            field: "mota",
+            cellStyle: {
+              maxWidth: "250px",
+            },
+          },
+          { title: "Giá", field: "gia" },
+          { title: "Ngày thêm", field: "ngaythem" },
         ]}
         data={list.map((item) => {
-          const dateCreate = new Date(item.ngaytao);
+          const dateCreate = new Date(item.ngaythem);
           return {
-            madon: item.madon,
-            ngaytao: `${dateCreate.getDate()}/${dateCreate.getMonth()}/${dateCreate.getFullYear()} - ${dateCreate.getHours()}:${dateCreate.getMinutes()}:${dateCreate.getSeconds()}`,
-            nguoinhan: item.nguoinhan,
-            sdt:
-              item.khachvanglai === null
-                ? item.khachHang.sdt
-                : item.khachvanglai.sdt,
-            tonggia: item.tonggia.toLocaleString("vi-VN", {
+            id: item.magiay,
+            hinh: item.urlanh,
+            tengiay: item.tengiay,
+            mota: item.mota.slice(0, 100) + "...",
+            gia: item.gia.toLocaleString("vi-VN", {
               style: "currency",
               currency: "VND",
             }),
-            diachi:
-              item.khachvanglai === null
-                ? item.khachHang.diachi
-                : item.khachvanglai.diachi,
-            tinhtrang: item.tinhtrang,
+            ngaythem: `${dateCreate.getDate()}/${dateCreate.getMonth() + 1}/${dateCreate.getFullYear()} - ${dateCreate.getHours()}:${dateCreate.getMinutes()}:${dateCreate.getSeconds()}`,
           };
         })}
         components={{
@@ -72,7 +79,7 @@ export default function OrderTable() {
                   style={{ color: "black" }}
                   sx={{ fontWeight: "bold" }}
                 >
-                  Danh sách đơn hàng
+                  Danh sách giày
                 </Typography>
               </div>
             </div>
@@ -88,8 +95,8 @@ export default function OrderTable() {
         ]}
         options={{
           actionsColumnIndex: -1,
-          pageSize: 10,
-          pageSizeOptions: [10, 15, 20],
+          pageSize: 5,
+          pageSizeOptions: [5, 10, 15],
         }}
       />
       {order && (

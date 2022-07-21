@@ -35,9 +35,7 @@ export default createSlice({
         state.status = STATUS_PENDING;
       })
       .addCase(duyetDonHang.fulfilled, (state, action) => {
-        // state.orderList[index].tinhtrang = "DADUYET";
         state.status = STATUS_FULFILLED;
-        // sessionStorage.setItem("orderList", JSON.stringify(state.orderList));
       })
       .addCase(duyetDonHang.rejected, (state, action) => {
         state.status = STATUS_REJECTED;
@@ -51,7 +49,7 @@ export const fetchOrders = createAsyncThunk("order/fetchOrders", async () =>
 
 export const duyetDonHang = createAsyncThunk(
   "order/duyetDonHang",
-  async (params,thunkAPI) => {
+  async (params, thunkAPI) => {
     await orderApi.duyetDon(params);
     thunkAPI.dispatch(fetchOrders());
   }

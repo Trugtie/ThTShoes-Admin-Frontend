@@ -7,10 +7,9 @@ import $ from "jquery";
 import StaffManagement from "../StaffManagement";
 import CustomerManagement from "../CustomerManagement";
 import OrderManageMent from "../OrderManagement";
-import { useDispatch } from "react-redux";
-import { fetchOrders } from "../../components/Tables/OrderTable/orderSlice";
-import LoadingSpinner from "../../components/LoadingSpiner";
 import { Toaster } from "react-hot-toast";
+import ProductManageMent from "../ProductManagement";
+import SaleManagement from "../SaleManagement";
 
 function MasterPage() {
   const handleMenu = () => {
@@ -31,76 +30,71 @@ function MasterPage() {
       case "/customermanagement":
         setTitle("Quản lý khách hàng");
         break;
+      case "/productmanagement":
+        setTitle("Quản lý sản phẩm");
+        break;
+      case "/ordermanagement":
+        setTitle("Quản lý đơn hàng");
+        break;
+      case "/salemanagement":
+        setTitle("Quản lý khuyến mãi");
+        break;
       default:
     }
   }, [location]);
 
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    dispatch(fetchOrders())
-      .unwrap()
-      .then((originalPromiseResult) => {
-        setIsLoading(false);
-      });
-  }, []);
-
   return (
-    <>
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <div className="MasterPage-container">
-          <Toaster
-            position="bottom-right"
-            reverseOrder={false}
-            toastOptions={{
-              // Define default options
-              className: "",
-              duration: 3000,
-              style: {
-                color: "#fff",
-                width: "250px",
-                height: "50px",
-                fontSize: "1.1rem",
-              },
-              // Default options for specific types
-              success: {
-                duration: 3000,
-                style: {
-                  background: "rgb(56, 142, 60)",
-                },
-              },
-              error: {
-                duration: 3000,
-                style: {
-                  background: "rgb(211, 47, 47)",
-                },
-              },
-            }}
-          />
-          <div className="Nav-layout">
-            <Nav />
-          </div>
-          <div className="Container-layout">
-            <div className="Slider-layout">
-              <Slider handle={handleMenu} title={title} />
-            </div>
-            <div className="Content-layout">
-              <Routes>
-                <Route path="/" element={<CustomerManagement />} />
-                <Route path="/staffmanagement" element={<StaffManagement />} />
-                <Route
-                  path="/customermanagement"
-                  element={<CustomerManagement />}
-                />
-                <Route path="/ordermanagement" element={<OrderManageMent />} />
-              </Routes>
-            </div>
-          </div>
+    <div className="MasterPage-container">
+      <Toaster
+        position="bottom-right"
+        reverseOrder={false}
+        toastOptions={{
+          // Define default options
+          className: "",
+          duration: 3000,
+          style: {
+            color: "#fff",
+            width: "250px",
+            height: "50px",
+            fontSize: "1.1rem",
+          },
+          // Default options for specific types
+          success: {
+            duration: 3000,
+            style: {
+              background: "rgb(56, 142, 60)",
+            },
+          },
+          error: {
+            duration: 3000,
+            style: {
+              background: "rgb(211, 47, 47)",
+            },
+          },
+        }}
+      />
+      <div className="Nav-layout">
+        <Nav />
+      </div>
+      <div className="Container-layout">
+        <div className="Slider-layout">
+          <Slider handle={handleMenu} title={title} />
         </div>
-      )}
-    </>
+        <div className="Content-layout">
+          <Routes>
+            <Route path="/" element={<CustomerManagement />} />
+            <Route path="/staffmanagement" element={<StaffManagement />} />
+            <Route
+              path="/customermanagement"
+              element={<CustomerManagement />}
+            />
+            <Route path="/ordermanagement" element={<OrderManageMent />} />
+            <Route path="/productmanagement" element={<ProductManageMent />} />
+            <Route path="/salemanagement" element={<SaleManagement />} />
+          </Routes>
+        </div>
+      </div>
+    </div>
   );
 }
 

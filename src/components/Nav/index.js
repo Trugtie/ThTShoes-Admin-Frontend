@@ -6,12 +6,13 @@ import StaffModal from "../Modal/StaffModal";
 import ExitIcon from "../../assets/exit.svg";
 import Logo from "../../assets/logo.svg";
 import "./style.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import userSlice from "./userSlice";
+import { userSelector } from "../../redux/selectors";
 import StarIcon from "../../assets/star.svg";
-
 function Nav() {
   const dispatch = useDispatch();
+  const user = useSelector(userSelector);
   useEffect(() => {
     ClockCircle();
   }, []);
@@ -35,7 +36,9 @@ function Nav() {
             <img className="nav-logo" src={Logo} alt="Logo" />
             <div id="clock"></div>
             <div className="user-info">
-              <h3 className="user-role">Nhan vien quan ly</h3>
+              <h3 className="user-role">
+                {user.taiKhoan.quyen === "ADMIN" ? "Admin" : "Nhân viên"}
+              </h3>
               <div className="user-divider">
                 <img className="user-star" src={StarIcon} />
               </div>
@@ -45,7 +48,7 @@ function Nav() {
                 underline="hover"
                 variant="body2"
               >
-                trugtie
+                Welcome {user.ten}
               </Link>
             </div>
           </div>
