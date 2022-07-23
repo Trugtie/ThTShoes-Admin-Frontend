@@ -14,7 +14,8 @@ import { useDispatch } from "react-redux";
 import * as yup from "yup";
 import staffApi from "../../../api/staffApi";
 import { addStaff } from "../../Tables/StaffTable/staffSlice";
-import { ColorButton, style } from "../Styles";
+import { ColorButton, style, ColorButtonRed } from "../Styles";
+import { toggleBlur } from "../../BlurLoading";
 import "./style.scss";
 
 export default function BasicModal({ staff, isOpen, isClose }) {
@@ -78,15 +79,18 @@ export default function BasicModal({ staff, isOpen, isClose }) {
   });
 
   const onSubmit = (data) => {
+    toggleBlur();
     dispatch(addStaff(data))
       .unwrap()
       .then((originalPromiseResult) => {
+        toggleBlur();
         toast.success("Đã thêm 1 nhân viên !");
         isClose();
       })
       .catch((rejectedValueOrSerializedError) => {
+        toggleBlur();
         toast.error("Thêm thất bại !");
-        reset();
+        isClose();
       });
   };
 
@@ -418,10 +422,15 @@ function returnModalAdd(
             </div>
             <div className="modal-form" style={{ marginTop: ".5rem" }}>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid item xs={8}>
                   <ColorButton variant="contained" type="submit">
                     Thêm nhân viên
                   </ColorButton>
+                </Grid>
+                <Grid item xs={4}>
+                  <ColorButtonRed variant="contained" onClick={isClose}>
+                    Thoát
+                  </ColorButtonRed>
                 </Grid>
               </Grid>
             </div>
@@ -556,9 +565,9 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data) {
           <div className="modal-form" style={{ marginTop: "3rem" }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <ColorButton variant="contained" onClick={isClose}>
+                <ColorButtonRed variant="contained" onClick={isClose}>
                   Thoát
-                </ColorButton>
+                </ColorButtonRed>
               </Grid>
             </Grid>
           </div>

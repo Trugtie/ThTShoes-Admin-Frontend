@@ -44,7 +44,7 @@ export default function OrderTable() {
           const dateCreate = new Date(item.ngaytao);
           return {
             madon: item.madon,
-            ngaytao: `${dateCreate.getDate()}/${dateCreate.getMonth()}/${dateCreate.getFullYear()} - ${dateCreate.getHours()}:${dateCreate.getMinutes()}:${dateCreate.getSeconds()}`,
+            ngaytao: `${dateCreate.getDate()}/${dateCreate.getMonth()+1}/${dateCreate.getFullYear()} - ${dateCreate.getHours()}:${dateCreate.getMinutes()}:${dateCreate.getSeconds()}`,
             nguoinhan: item.nguoinhan,
             sdt:
               item.khachvanglai === null

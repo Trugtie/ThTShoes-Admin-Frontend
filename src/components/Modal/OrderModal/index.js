@@ -1,18 +1,18 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Modal from "@mui/material/Modal";
-import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { duyetDonHang } from "../../Tables/OrderTable/orderSlice";
-import { useState, useEffect } from "react";
 import orderApi from "../../../api/orderApi";
+import { duyetDonHang } from "../../Tables/OrderTable/orderSlice";
+import { toggleBlur } from "../../BlurLoading";
 import {
   ColorButton,
   ColorButtonRed,
@@ -160,11 +160,8 @@ function returnModal(data, isOpen, isClose, dispatch) {
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <TableContainer
-                  component={Paper}
-                  sx={{ minWidth: 500, maxHeight: 350 }}
-                >
-                  <Table stickyHeader  aria-label="customized table">
+                <TableContainer sx={{ minWidth: 500, maxHeight: 350 }}>
+                  <Table stickyHeader aria-label="customized table">
                     <TableHead>
                       <TableRow>
                         <StyledTableCell>Mã sản phẩm</StyledTableCell>
@@ -276,14 +273,18 @@ function returnModal(data, isOpen, isClose, dispatch) {
                   <Grid item xs={6}>
                     <ColorButton
                       onClick={() => {
+                        toggleBlur();
                         const payload = { madonhang: data.madon };
                         dispatch(duyetDonHang(payload))
                           .then((originalPromiseResult) => {
+                            toggleBlur();
                             toast.success("Duyệt đơn thành công");
                             isClose();
                           })
                           .catch((rejectedValueOrSerializedError) => {
+                            toggleBlur();
                             toast.error("Duyệt đơn thất bại");
+                            isClose();
                           });
                       }}
                       variant="contained"
@@ -295,21 +296,25 @@ function returnModal(data, isOpen, isClose, dispatch) {
                     <ColorButtonRed
                       variant="contained"
                       onClick={() => {
+                        toggleBlur();
                         const payload = {
                           madonhang: data.madon,
                           tinhTrang: "TUCHOI",
                         };
                         dispatch(duyetDonHang(payload))
                           .then((originalPromiseResult) => {
+                            toggleBlur();
                             toast.success("Đã từ chối đơn hàng");
                             isClose();
                           })
                           .catch((rejectedValueOrSerializedError) => {
+                            toggleBlur();
                             toast.error("Từ chối đơn hàng thất bại");
+                            isClose();
                           });
                       }}
                     >
-                      Hủy bỏ
+                      Hủy đơn hàng
                     </ColorButtonRed>
                   </Grid>
                 </>
@@ -319,14 +324,17 @@ function returnModal(data, isOpen, isClose, dispatch) {
                     <ColorButton
                       variant="contained"
                       onClick={() => {
+                        toggleBlur();
                         const payload = { madonhang: data.madon };
                         dispatch(duyetDonHang(payload))
                           .then((originalPromiseResult) => {
+                            toggleBlur();
                             toast.success("Hoàn thành đơn hàng");
                             isClose();
                           })
                           .catch((rejectedValueOrSerializedError) => {
                             toast.error("Chưa hoàn thành đơn hàng");
+                            isClose();
                           });
                       }}
                     >
@@ -335,7 +343,11 @@ function returnModal(data, isOpen, isClose, dispatch) {
                   </Grid>
                 </>
               ) : (
-                <></>
+                <Grid item xs={12}>
+                  <ColorButtonRed variant="contained" onClick={isClose}>
+                    Thoát
+                  </ColorButtonRed>
+                </Grid>
               )}
             </Grid>
           </div>
