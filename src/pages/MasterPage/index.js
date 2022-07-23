@@ -10,6 +10,7 @@ import OrderManageMent from "../OrderManagement";
 import { Toaster } from "react-hot-toast";
 import ProductManageMent from "../ProductManagement";
 import SaleManagement from "../SaleManagement";
+import BlurLoading from "../../components/BlurLoading";
 
 function MasterPage() {
   const handleMenu = () => {
@@ -73,6 +74,7 @@ function MasterPage() {
           },
         }}
       />
+      <BlurLoading />
       <div className="Nav-layout">
         <Nav />
       </div>
