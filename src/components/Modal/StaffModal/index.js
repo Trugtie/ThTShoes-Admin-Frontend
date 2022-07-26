@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
 import staffApi from "../../../api/staffApi";
-import { addStaff } from "../../Tables/StaffTable/staffSlice";
+import { addStaff, fetchStaff } from "../../Tables/StaffTable/staffSlice";
 import { ColorButton, style, ColorButtonRed } from "../Styles";
 import { toggleBlur } from "../../BlurLoading";
 import "./style.scss";
@@ -25,7 +25,9 @@ export default function BasicModal({ staff, isOpen, isClose }) {
   useLayoutEffect(() => {
     async function getById() {
       const result = await staffApi.getById(staff.manv);
+      console.log(result);
       setData(result);
+      setTrangthai(result.taiKhoan.tinhtrang);
     }
     getById();
     return () => {
@@ -96,7 +98,8 @@ export default function BasicModal({ staff, isOpen, isClose }) {
 
   return (
     <>
-      {data && returnModal(isOpen, isClose, trangthai, setTrangthai, data)}
+      {data &&
+        returnModal(isOpen, isClose, trangthai, setTrangthai, data, dispatch)}
       {staff === "add" &&
         returnModalAdd(
           isOpen,
@@ -441,7 +444,31 @@ function returnModalAdd(
   );
 }
 
-function returnModal(isOpen, isClose, trangthai, setTrangthai, data) {
+function returnModal(isOpen, isClose, trangthai, setTrangthai, data, dispatch) {
+  const handleLock = () => {
+    const result = staffApi.lockStaff(data.manv);
+    result
+      .then(function (response) {
+        toast.success(`Đã khóa ${data.manv}`);
+        dispatch(fetchStaff());
+        isClose();
+      })
+      .catch(function (error) {
+        toast.error(error.message);
+      });
+  };
+  const handleUnLock = () => {
+    const result = staffApi.unlockStaff(data.manv);
+    result
+      .then(function (response) {
+        toast.success(`Đã mở khóa ${data.manv}`);
+        dispatch(fetchStaff());
+        isClose();
+      })
+      .catch(function (error) {
+        toast.error(error.message);
+      });
+  };
   return (
     <Modal
       className="modal-container"
@@ -459,6 +486,7 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data) {
             <Grid container spacing={2}>
               <Grid item xs={4}>
                 <TextField
+                  InputProps={{ readOnly: true }}
                   id="filled-basic"
                   label="Mã nhân viên"
                   variant="filled"
@@ -467,6 +495,7 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data) {
               </Grid>
               <Grid item xs={4}>
                 <TextField
+                  InputProps={{ readOnly: true }}
                   id="filled-basic"
                   label="Họ"
                   variant="filled"
@@ -476,6 +505,7 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data) {
               </Grid>
               <Grid item xs={4}>
                 <TextField
+                  InputProps={{ readOnly: true }}
                   id="filled-basic"
                   label="Tên"
                   variant="filled"
@@ -485,6 +515,7 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  InputProps={{ readOnly: true }}
                   id="filled-basic"
                   label="Số điện thoại"
                   variant="filled"
@@ -496,6 +527,7 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  InputProps={{ readOnly: true }}
                   id="filled-basic"
                   label="Địa chỉ"
                   variant="filled"
@@ -512,7 +544,7 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data) {
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
-                  disabled
+                  InputProps={{ readOnly: true }}
                   id="filled-basic"
                   label="Tên tài khoản"
                   variant="filled"
@@ -523,7 +555,7 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data) {
               </Grid>
               <Grid item xs={6}>
                 <TextField
-                  disabled
+                  InputProps={{ readOnly: true }}
                   id="filled-basic"
                   label="Quyền"
                   variant="filled"
@@ -533,6 +565,7 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data) {
               </Grid>
               <Grid item xs={6}>
                 <TextField
+                  InputProps={{ readOnly: true }}
                   id="filled-basic"
                   label="Email"
                   variant="filled"
@@ -550,6 +583,7 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data) {
                     Trạng thái
                   </InputLabel>
                   <Select
+                    disabled
                     labelId="demo-simple-select-filled-label"
                     id="demo-simple-select-filled"
                     defaultValue={data.taiKhoan.tinhtrang}
@@ -564,7 +598,18 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data) {
           </div>
           <div className="modal-form" style={{ marginTop: "3rem" }}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
+                {trangthai === 1 ? (
+                  <ColorButton variant="contained" onClick={handleLock}>
+                    Khóa
+                  </ColorButton>
+                ) : (
+                  <ColorButton variant="contained" onClick={handleUnLock}>
+                    Mở khóa
+                  </ColorButton>
+                )}
+              </Grid>
+              <Grid item xs={6}>
                 <ColorButtonRed variant="contained" onClick={isClose}>
                   Thoát
                 </ColorButtonRed>

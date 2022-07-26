@@ -1,10 +1,10 @@
-import MaterialTable, { MTableToolbar } from "material-table";
-import "./style.scss";
-import StaffModal from "../../Modal/StaffModal";
 import Typography from "@mui/material/Typography";
+import MaterialTable, { MTableToolbar } from "material-table";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { staffsSelector } from "../../../redux/selectors";
+import StaffModal from "../../Modal/StaffModal";
+import "./style.scss";
 
 export default function StaffTable() {
   const list = useSelector(staffsSelector);

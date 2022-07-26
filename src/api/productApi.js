@@ -12,6 +12,11 @@ const productApi = {
     const { data } = await authAxios.get(`${API_URL}${url}`);
     return data;
   },
+  getAllLoaiPK: async () => {
+    const url = "/nhanvien/loaiphukien";
+    const { data } = await authAxios.get(`${API_URL}${url}`);
+    return data;
+  },
   getAllHang: async () => {
     const url = "/nhanvien/hang";
     const { data } = await authAxios.get(`${API_URL}${url}`);
@@ -35,6 +40,18 @@ const productApi = {
   addShoe: (payload) => {
     const url = `/nhanvien/giay`;
     return authAxios.post(`${API_URL}${url}`, payload);
+  },
+  deleteShoe: (payload) => {
+    const url = `/nhanvien/giay/${payload}`;
+    return authAxios.delete(`${API_URL}${url}`);
+  },
+  addPhuKien: (payload) => {
+    const url = `/nhanvien/phukien`;
+    return authAxios.post(`${API_URL}${url}`, payload);
+  },
+  deletePhuKien: (payload) => {
+    const url = `/nhanvien/phukien/${payload}`;
+    return authAxios.delete(`${API_URL}${url}`);
   },
   addImage: (payload) => {
     const url = `/nhanvien/hinh`;

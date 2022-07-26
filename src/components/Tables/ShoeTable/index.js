@@ -2,10 +2,14 @@ import MaterialTable, { MTableToolbar } from "material-table";
 import ShoeModal from "../../Modal/ShoeModal";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { shoesSelector } from "../../../redux/selectors";
+import { fetchShoes } from "./shoesSlice";
+import productApi from "../../../api/productApi";
+import toast from "react-hot-toast";
 
 export default function ShoeTable() {
+  const dispatch = useDispatch();
   const list = useSelector(shoesSelector);
   const [open, setOpen] = useState(false);
   const [shoe, setShoe] = useState(null);
@@ -19,6 +23,18 @@ export default function ShoeTable() {
         )
       : setShoe("add");
     setOpen(true);
+  };
+
+  const handleDeleteShoe = (data) => {
+    const result = productApi.deleteShoe(data.id);
+    result
+      .then(function (response) {
+        toast.success(`Đã xóa ${data.id}`);
+        dispatch(fetchShoes());
+      })
+      .catch(function (error) {
+        toast.error(error.response.data);
+      });
   };
 
   return (
@@ -102,6 +118,11 @@ export default function ShoeTable() {
             iconProps: { color: "info", fontSize: "large" },
             isFreeAction: true,
             onClick: (event) => handleOpen(null),
+          },
+          {
+            icon: "delete",
+            tooltip: "Xóa giày",
+            onClick: (event, rowData) => handleDeleteShoe(rowData),
           },
         ]}
         options={{

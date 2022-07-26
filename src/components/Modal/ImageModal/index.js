@@ -7,6 +7,7 @@ import { ColorButton, ColorButtonRed, style } from "../Styles";
 import toast from "react-hot-toast";
 import productApi from "../../../api/productApi";
 import { fetchShoes } from "../../Tables/ShoeTable/shoesSlice";
+import { fetchAccessory } from "../../Tables/AccessoryTable/accessorySlice";
 import { useDispatch } from "react-redux";
 
 export default function ImageModal({ id, isOpen, isClose, closeAdd }) {
@@ -50,7 +51,8 @@ export default function ImageModal({ id, isOpen, isClose, closeAdd }) {
       const res = productApi.addImage(formData);
       res
         .then(function (response) {
-          dispatch(fetchShoes());
+          if (id.includes("GA")) dispatch(fetchShoes());
+          else dispatch(fetchAccessory());
           toast.success(`Đã thêm hình cho ${id} ! `);
           isClose();
           closeAdd();

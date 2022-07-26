@@ -2,43 +2,57 @@ import MaterialTable, { MTableToolbar } from "material-table";
 import { useState } from "react";
 import CustomerModal from "../../Modal/CustomerModal";
 import Typography from "@mui/material/Typography";
+import { useSelector } from "react-redux";
+import { customersSelector } from "../../../redux/selectors";
 
 export default function CustomerTable() {
-  const [openAdd, setOpenAdd] = useState(false);
-  const [cusEdit, setCustomer] = useState(null);
-  const handleClose = () => {
-    setOpenAdd(false);
-  };
-  const handleOpen = (cus) => {
-    setCustomer(cus);
-    setOpenAdd(true);
+  const list = useSelector(customersSelector);
+  console.log(list);
+  const [open, setOpen] = useState(false);
+  const [customer, setCustomer] = useState(null);
+  const handleClose = () => setOpen(false);
+  const handleOpen = (data) => {
+    data
+      ? setCustomer(
+          list.find((item) => {
+            return item.makh === data.khid;
+          })
+        )
+      : setCustomer("add");
+    setOpen(true);
   };
 
   return (
-    <div className='table-mui-container'>
+    <div className="table-mui-container">
       <MaterialTable
         columns={[
           { title: "ID", field: "khid" },
-          { title: "Họ tên", field: "hoten" },
-          { title: "SĐT", field: "sodienthoai", type: "numeric" },
+          { title: "Họ tên", field: "tenkh" },
+          { title: "SĐT", field: "sdt" },
           { title: "Email", field: "email" },
           { title: "Địa chỉ", field: "diachi" },
           {
+            title: "Quyền",
+            field: "quyen",
+            lookup: { KHACHHANG: "Khách hàng" },
+          },
+          {
             title: "Trạng thái",
             field: "trangthai",
-            lookup: { 0: "Available", 1: "Blocked" },
+            lookup: { 1: "Hoạt động", 0: "Bị khóa" },
           },
         ]}
-        data={[
-          {
-            khid: "kh1",
-            hoten: "Baran",
-            sodienthoai: 12345678910,
-            email: "dasd@gmail.com",
-            diachi: "asadasda",
-            trangthai: "0",
-          },
-        ]}
+        data={list.map((item) => {
+          return {
+            khid: item.makh,
+            tenkh: item.ho + " " + item.ten,
+            sdt: item.sdt,
+            email: item.taiKhoan.email,
+            diachi: item.diachi,
+            quyen: item.taiKhoan.quyen,
+            trangthai: item.taiKhoan.tinhtrang,
+          };
+        })}
         components={{
           Toolbar: (props) => (
             <div className="table-header">
@@ -63,13 +77,6 @@ export default function CustomerTable() {
             onClick: (event, rowData) => handleOpen(rowData),
             iconProps: { style: { color: "var(--button-green-color)" } },
           },
-          {
-            icon: "add_circle",
-            tooltip: "Thêm",
-            iconProps: { color: "info", fontSize: "large" },
-            isFreeAction: true,
-            onClick: (event) => handleOpen(null),
-          },
         ]}
         options={{
           actionsColumnIndex: -1,
@@ -77,7 +84,13 @@ export default function CustomerTable() {
           pageSizeOptions: [10, 15, 20],
         }}
       />
-      <CustomerModal cus={cusEdit} isOpen={openAdd} isClose={handleClose} />
+      {customer && (
+        <CustomerModal
+          customer={customer}
+          isOpen={open}
+          isClose={handleClose}
+        />
+      )}
     </div>
   );
 }

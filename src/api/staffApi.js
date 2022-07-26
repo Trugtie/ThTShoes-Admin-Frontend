@@ -16,6 +16,14 @@ const staffApi = {
     const url = `/nhanvien/themnhanvien`;
     return authAxios.post(`${API_URL}${url}`, payload);
   },
+  lockStaff: (payload) => {
+    const url = `/nhanvien/lock/${payload}`;
+    return authAxios.put(`${API_URL}${url}`);
+  },
+  unlockStaff: (payload) => {
+    const url = `/nhanvien/unlock/${payload}`;
+    return authAxios.put(`${API_URL}${url}`);
+  },
 };
 
 export default staffApi;
