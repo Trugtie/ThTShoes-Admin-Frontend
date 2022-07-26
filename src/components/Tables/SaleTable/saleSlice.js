@@ -31,26 +31,9 @@ export default createSlice({
         state.saleList = [];
         state.status = STATUS_REJECTED;
       })
-      .addCase(addSale.pending, (state, action) => {
-        state.status = STATUS_PENDING;
-      })
-      .addCase(addSale.fulfilled, (state, action) => {
-        state.status = STATUS_FULFILLED;
-      })
-      .addCase(addSale.rejected, (state, action) => {
-        state.status = STATUS_REJECTED;
-      });
   },
 });
 
 export const fetchSale = createAsyncThunk("sale/fetchSale", async () =>
   saleApi.getAll()
-);
-
-export const addSale = createAsyncThunk(
-  "sale/addSale",
-  async (payload, thunkAPI) => {
-    await saleApi.addSale(payload);
-    thunkAPI.dispatch(fetchSale());
-  }
 );

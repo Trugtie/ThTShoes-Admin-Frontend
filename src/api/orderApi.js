@@ -7,7 +7,7 @@ const orderApi = {
     const { data } = await authAxios.get(`${API_URL}${url}`);
     return data;
   },
-  getById: async(payload) => {
+  getById: async (payload) => {
     const url = `/nhanvien/donhang/${payload}`;
     const { data } = await authAxios.get(`${API_URL}${url}`);
     return data;

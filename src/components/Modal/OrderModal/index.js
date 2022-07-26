@@ -277,9 +277,15 @@ function returnModal(data, isOpen, isClose, dispatch) {
                         const payload = { madonhang: data.madon };
                         dispatch(duyetDonHang(payload))
                           .then((originalPromiseResult) => {
-                            toggleBlur();
-                            toast.success("Duyệt đơn thành công");
-                            isClose();
+                            if (originalPromiseResult.error) {
+                              toggleBlur();
+                              toast.error("Duyệt đơn thất bại");
+                              isClose();
+                            } else {
+                              toggleBlur();
+                              toast.success("Duyệt đơn thành công");
+                              isClose();
+                            }
                           })
                           .catch((rejectedValueOrSerializedError) => {
                             toggleBlur();

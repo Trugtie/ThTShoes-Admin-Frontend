@@ -7,6 +7,53 @@ const productApi = {
     const { data } = await authAxios.get(`${API_URL}${url}`);
     return data;
   },
+  getAllLoaiGiay: async () => {
+    const url = "/nhanvien/loaigiay";
+    const { data } = await authAxios.get(`${API_URL}${url}`);
+    return data;
+  },
+  getAllHang: async () => {
+    const url = "/nhanvien/hang";
+    const { data } = await authAxios.get(`${API_URL}${url}`);
+    return data;
+  },
+  getAllDanhMuc: async () => {
+    const url = "/nhanvien/danhmuc";
+    const { data } = await authAxios.get(`${API_URL}${url}`);
+    return data;
+  },
+  getAllSize: async () => {
+    const url = "/nhanvien/size";
+    const { data } = await authAxios.get(`${API_URL}${url}`);
+    return data;
+  },
+  getAllMau: async () => {
+    const url = "/nhanvien/mausac";
+    const { data } = await authAxios.get(`${API_URL}${url}`);
+    return data;
+  },
+  addShoe: (payload) => {
+    const url = `/nhanvien/giay`;
+    return authAxios.post(`${API_URL}${url}`, payload);
+  },
+  addImage: (payload) => {
+    const url = `/nhanvien/hinh`;
+    const token = localStorage.getItem("admin_access_token");
+    return axios({
+      method: "post",
+      url: `${API_URL}${url}`,
+      data: payload,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  },
+  getShoeById: async (payload) => {
+    const url = `/nhanvien/giay/${payload}`;
+    const { data } = await authAxios.get(`${API_URL}${url}`);
+    return data;
+  },
   getAllAccessory: async () => {
     const url = "/nhanvien/phukien";
     const { data } = await authAxios.get(`${API_URL}${url}`);

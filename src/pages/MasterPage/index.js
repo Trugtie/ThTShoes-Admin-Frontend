@@ -56,7 +56,7 @@ function MasterPage() {
           style: {
             color: "#fff",
             width: "250px",
-            height: "50px",
+            height: "auto",
             fontSize: "1.1rem",
           },
           // Default options for specific types

@@ -269,6 +269,21 @@
     padding-left: 12px;
   }
 
+  .reset-btn {
+    display: block;
+    color: white;
+    border: none;
+    margin-top: 0.5rem;
+    background-color: #00559b;
+    padding: 0.3rem 1rem;
+    border-radius: 0.2rem;
+    transition: all 0.3s;
+    cursor: pointer;
+    &:hover {
+      background-color: black;
+    }
+  }
+
   .add-btn {
     color: white;
     height: 56px;
@@ -315,6 +330,79 @@
 
   .modal-form--detail {
     padding: 1rem 0rem;
+  }
+
+  .add-image-label {
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  }
+  .input-select-image::file-selector-button {
+    margin-top: 0.5rem;
+    background-color: var(--button-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.3rem;
+    transition: all 0.3s;
+    cursor: pointer;
+    &:hover {
+      background-color: black;
+    }
+  }
+
+  .image-id {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  .image-id-code {
+    margin-top: 0.5rem;
+    border: 1px solid var(--button-color);
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    background: none;
+  }
+
+  .size-header {
+    font-size: 1.2rem;
+    color: rgb(53, 53, 53);
+  }
+  .size-list {
+    list-style: none;
+  }
+  .size-item {
+    background: #2e2926;
+    padding: 0 1rem;
+    border-bottom: 1px solid white;
+    color: white;
+    transition: all 0.3s;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      background-color: #131313;
+    }
+  }
+  .image-del {
+    position: absolute;
+    top: 1;
+    right: 0;
+    padding: 0.3rem 0.5rem;
+    border-radius: 100%;
+    cursor: pointer;
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    transition: all 0.3s;
+    &:hover {
+      background-color: black;
+    }
   }
 
   @media screen and (max-height: 895px) {
@@ -386,4 +474,8 @@
     padding-left: 16px;
     padding-right: 16px;
   }
+}
+
+.css-6hp17o-MuiList-root-MuiMenu-list {
+  max-height: 250px;
 }

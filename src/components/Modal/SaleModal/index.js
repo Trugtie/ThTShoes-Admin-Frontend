@@ -14,8 +14,8 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
 import saleApi from "../../../api/saleApi";
-import { addSale } from "../../Tables/SaleTable/saleSlice";
-import { ColorButton, style } from "../Styles";
+import { fetchSale } from "../../Tables/SaleTable/saleSlice";
+import { ColorButton, style, ColorButtonRed } from "../Styles";
 
 export default function SaleModal({ sale, isOpen, isClose }) {
   const dispatch = useDispatch();
@@ -23,7 +23,10 @@ export default function SaleModal({ sale, isOpen, isClose }) {
   const [data, setData] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
+  const [imageFile, setImageFile] = useState();
+  const [id, setId] = useState("");
+  const [add, setAdd] = useState(true);
 
   useLayoutEffect(() => {
     async function getById() {
@@ -31,14 +34,17 @@ export default function SaleModal({ sale, isOpen, isClose }) {
       setData(result);
       setStartDate(result.ngaybd);
       setEndDate(result.ngaykt);
-      setImage(result.urlanh);
     }
     getById();
     return () => {
       setData(null);
       setStartDate(null);
       setEndDate(null);
-      setImage(null);
+      setImage("");
+      setAdd(true);
+      reset();
+      setId("");
+      setImageFile();
     };
   }, [sale]);
 
@@ -63,17 +69,62 @@ export default function SaleModal({ sale, isOpen, isClose }) {
   const onSubmit = (data) => {
     data.ngaybd = startDate.toISOString().substring(0, 10);
     data.ngaykt = endDate.toISOString().substring(0, 10);
-    data.urlanh = image;
-    dispatch(addSale(data))
-      .unwrap()
-      .then((originalPromiseResult) => {
-        toast.success("Đã thêm 1 khuyến mãi !");
-        isClose();
+    const res = saleApi.addSale(data);
+    res
+      .then(function (response) {
+        dispatch(fetchSale());
+        toast.success("Đã thêm thông tin khuyến mãi, hãy thêm hình !");
+        setId(response.data);
+        setAdd(false);
       })
-      .catch((rejectedValueOrSerializedError) => {
+      .catch(function (error) {
         toast.error("Thêm thất bại !");
-        reset();
       });
+  };
+
+  //Upload image
+  const handleSelectFile = (e) => {
+    const imageSelected = e.target.files[0];
+    console.log(imageSelected);
+    const imageURL = URL.createObjectURL(imageSelected);
+    setImage(imageURL);
+    setImageFile(imageSelected);
+  };
+
+  const {
+    register: imageRegister,
+    formState: { errors: imageErrors },
+    handleSubmit: handleSubmitImage,
+  } = useForm();
+
+  const onSubmitImage = (data) => {
+    if (image.length > 0) {
+      let formData = new FormData();
+      formData.append("imageKm", imageFile);
+
+      const payload = {
+        makm: id,
+        data: formData,
+      };
+      const res = saleApi.addImage(payload);
+      res
+        .then(function (response) {
+          dispatch(fetchSale());
+          toast.success(`Đã thêm thêm hình cho ${id} ! `);
+          setData(null);
+          setStartDate(null);
+          setEndDate(null);
+          setImage("");
+          setAdd(true);
+          reset();
+          setId("");
+          setImageFile();
+          isClose();
+        })
+        .catch(function (error) {
+          toast.error("Thêm thất bại !");
+        });
+    } else toast.error("Bạn chưa thêm hình !");
   };
 
   return (
@@ -87,9 +138,7 @@ export default function SaleModal({ sale, isOpen, isClose }) {
           startDate,
           setStartDate,
           endDate,
-          setEndDate,
-          image,
-          setImage
+          setEndDate
         )}
       {sale === "add" &&
         returnModalAdd(
@@ -99,12 +148,23 @@ export default function SaleModal({ sale, isOpen, isClose }) {
           setStartDate,
           endDate,
           setEndDate,
-          image,
-          setImage,
+          handleSelectFile,
           handleSubmit,
           onSubmit,
           control,
-          errors
+          errors,
+          image,
+          setImage,
+          id,
+          add,
+          setData,
+          setId,
+          setAdd,
+          reset,
+          handleSubmitImage,
+          onSubmitImage,
+          imageRegister,
+          setImageFile
         )}
     </>
   );
@@ -118,9 +178,7 @@ function returnModal(
   startDate,
   setStartDate,
   endDate,
-  setEndDate,
-  image,
-  setImage
+  setEndDate
 ) {
   return (
     <Modal
@@ -137,43 +195,27 @@ function returnModal(
           <hr className="modal-divider" />
           <div className="modal-form">
             <Grid container spacing={2}>
-              <Grid container item xs={6}>
-                <Grid item xs={12}>
-                  <TextField
-                    id="filled-basic"
-                    label="Mã khuyến mãi"
-                    variant="filled"
-                    defaultValue={data.makm}
-                    fullWidth
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    id="filled-basic"
-                    label="Tiêu đề"
-                    variant="filled"
-                    placeholder="Nhập tiêu đề..."
-                    defaultValue={data.tieude}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    id="filled-basic"
-                    label="Hình (Url)"
-                    variant="filled"
-                    placeholder="Nhập hình..."
-                    defaultValue={image}
-                    onChange={(e) => setImage(e.target.value)}
-                    fullWidth
-                  />
-                </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  id="filled-basic"
+                  label="Mã khuyến mãi"
+                  variant="filled"
+                  defaultValue={data.makm}
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
               </Grid>
               <Grid item xs={6}>
-                <img src={image} style={{ width: "100%" }}></img>
+                <TextField
+                  id="filled-basic"
+                  label="Tiêu đề"
+                  variant="filled"
+                  placeholder="Nhập tiêu đề..."
+                  defaultValue={data.tieude}
+                  fullWidth
+                />
               </Grid>
               <Grid item xs={6}>
                 <LocalizationProvider
@@ -256,10 +298,15 @@ function returnModal(
           </div>
           <div className="modal-form" style={{ marginTop: "3rem" }}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={8}>
                 <ColorButton variant="contained">
                   Cập nhật khuyến mãi
                 </ColorButton>
+              </Grid>
+              <Grid item xs={4}>
+                <ColorButtonRed variant="contained" onClick={isClose}>
+                  Thoát
+                </ColorButtonRed>
               </Grid>
             </Grid>
           </div>
@@ -276,83 +323,67 @@ function returnModalAdd(
   setStartDate,
   endDate,
   setEndDate,
-  image,
-  setImage,
+  handleSelectFile,
   handleSubmit,
   onSubmit,
   control,
-  errors
+  errors,
+  image,
+  setImage,
+  id,
+  add,
+  setData,
+  setId,
+  setAdd,
+  reset,
+  handleSubmitImage,
+  onSubmitImage,
+  imageRegister,
+  setImageFile
 ) {
   return (
     <Modal
       className="modal-container"
       open={isOpen}
-      onClose={isClose}
+      onClose={() => {
+        setData(null);
+        setStartDate(null);
+        setEndDate(null);
+        setImage("");
+        setId("");
+        setAdd(true);
+        setImageFile();
+        reset();
+        isClose();
+      }}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Box sx={style}>
-          <h1 className="modal-title">KHUYẾN MÃI</h1>
-          <div className="modal-content">
-            <h2 className="modal-subtitle">Thông tin khuyến mãi</h2>
-            <hr className="modal-divider" />
+      <Box sx={style}>
+        <h1 className="modal-title">KHUYẾN MÃI</h1>
+        <div className="modal-content">
+          <h2 className="modal-subtitle">Thông tin khuyến mãi</h2>
+          <hr className="modal-divider" />
+          <form key={1} onSubmit={handleSubmit(onSubmit)}>
             <div className="modal-form">
               <Grid container spacing={2}>
-                <Grid container item xs={6}>
-                  <Grid item xs={12}>
-                    <TextField
-                      id="filled-basic"
-                      label="Mã khuyến mãi"
-                      variant="filled"
-                      defaultValue=""
-                      fullWidth
-                      disabled
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Controller
-                      name="tieude"
-                      defaultValue=""
-                      control={control}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          id="filled-basic"
-                          label="Tiêu đề"
-                          variant="filled"
-                          placeholder="Nhập tiêu đề..."
-                          fullWidth
-                          required
-                        />
-                      )}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      id="filled-basic"
-                      label="Hình (Url)"
-                      variant="filled"
-                      placeholder="Nhập hình..."
-                      defaultValue=""
-                      value={image}
-                      onChange={(e) => {
-                        setImage(e.target.value);
-                      }}
-                      fullWidth
-                      required
-                    />
-                  </Grid>
-                </Grid>
-                <Grid item xs={6}>
-                  <img
-                    src={
-                      image
-                        ? image
-                        : "https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png"
-                    }
-                    style={{ width: "100%" }}
-                  ></img>
+                <Grid item xs={12}>
+                  <Controller
+                    name="tieude"
+                    defaultValue=""
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        id="filled-basic"
+                        label="Tiêu đề"
+                        variant="filled"
+                        placeholder="Nhập tiêu đề..."
+                        fullWidth
+                        required
+                      />
+                    )}
+                  />
                 </Grid>
                 <Grid item xs={6}>
                   <LocalizationProvider
@@ -457,8 +488,8 @@ function returnModalAdd(
                         required
                         aria-label="Mô tả"
                         placeholder="Nhâp mô tả"
-                        minRows={10}
-                        maxRows={10}
+                        minRows={5}
+                        maxRows={5}
                         style={{
                           width: "100%",
                           background: "#ece8e5",
@@ -470,20 +501,89 @@ function returnModalAdd(
                     )}
                   />
                 </Grid>
-              </Grid>
-            </div>
-            <div className="modal-form" style={{ marginTop: "3rem" }}>
-              <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <ColorButton variant="contained" type="submit">
-                    Thêm khuyến mãi
-                  </ColorButton>
+                  {add && (
+                    <ColorButton variant="contained" type="submit">
+                      Thêm thông tin khuyến mãi
+                    </ColorButton>
+                  )}
                 </Grid>
               </Grid>
             </div>
-          </div>
-        </Box>
-      </form>
+          </form>
+          <h2 className="modal-subtitle">Hình ảnh khuyến mãi</h2>
+          <hr className="modal-divider" />
+          <form key={2} onSubmit={handleSubmitImage(onSubmitImage)}>
+            <div className="modal-form">
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  {image ? (
+                    <img
+                      src={image}
+                      style={{ width: "300px", height: "200px" }}
+                    />
+                  ) : (
+                    <img
+                      src="https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png"
+                      style={{ width: "300px", height: "200px" }}
+                    />
+                  )}
+                </Grid>
+                <Grid item xs={6}>
+                  <h1 className="image-id">
+                    Mã khuyến mãi:
+                    <input type="text" className="image-id-code" value={id} />
+                  </h1>
+                  <label className="add-image-label">
+                    + Thêm hình
+                    <br />
+                    <input
+                      type="file"
+                      className="input-select-image"
+                      name="images"
+                      onChange={handleSelectFile}
+                      accept="image/png,image/jpeg,image/webp"
+                    />
+                  </label>
+                  <button
+                    className="reset-btn"
+                    onClick={() => {
+                      setImage("");
+                    }}
+                  >
+                    Reset
+                  </button>
+                </Grid>
+                <Grid item xs={12}>
+                  {id && (
+                    <ColorButton variant="contained" type="submit">
+                      Thêm hình
+                    </ColorButton>
+                  )}
+                </Grid>
+              </Grid>
+            </div>
+          </form>
+          <Grid item xs={12}>
+            <ColorButtonRed
+              variant="contained"
+              onClick={() => {
+                setData(null);
+                setStartDate(null);
+                setEndDate(null);
+                setImage("");
+                setAdd(true);
+                reset();
+                setId("");
+                setImageFile();
+                isClose();
+              }}
+            >
+              Thoát
+            </ColorButtonRed>
+          </Grid>
+        </div>
+      </Box>
     </Modal>
   );
 }

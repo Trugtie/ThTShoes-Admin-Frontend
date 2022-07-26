@@ -1,5 +1,5 @@
 import MaterialTable, { MTableToolbar } from "material-table";
-import OrderModal from "../../Modal/OrderModal";
+import ShoeModal from "../../Modal/ShoeModal";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -8,14 +8,16 @@ import { shoesSelector } from "../../../redux/selectors";
 export default function ShoeTable() {
   const list = useSelector(shoesSelector);
   const [open, setOpen] = useState(false);
-  const [order, setOrder] = useState(null);
+  const [shoe, setShoe] = useState(null);
   const handleClose = () => setOpen(false);
   const handleOpen = (data) => {
-    setOrder(
-      list.find((item) => {
-        return item.madon === data.madon;
-      })
-    );
+    data
+      ? setShoe(
+          list.find((item) => {
+            return item.magiay === data.id;
+          })
+        )
+      : setShoe("add");
     setOpen(true);
   };
 
@@ -65,7 +67,9 @@ export default function ShoeTable() {
               style: "currency",
               currency: "VND",
             }),
-            ngaythem: `${dateCreate.getDate()}/${dateCreate.getMonth() + 1}/${dateCreate.getFullYear()} - ${dateCreate.getHours()}:${dateCreate.getMinutes()}:${dateCreate.getSeconds()}`,
+            ngaythem: `${dateCreate.getDate()}/${
+              dateCreate.getMonth() + 1
+            }/${dateCreate.getFullYear()} - ${dateCreate.getHours()}:${dateCreate.getMinutes()}:${dateCreate.getSeconds()}`,
           };
         })}
         components={{
@@ -92,6 +96,13 @@ export default function ShoeTable() {
             onClick: (event, rowData) => handleOpen(rowData),
             iconProps: { style: { color: "var(--button-green-color)" } },
           },
+          {
+            icon: "add_circle",
+            tooltip: "Thêm",
+            iconProps: { color: "info", fontSize: "large" },
+            isFreeAction: true,
+            onClick: (event) => handleOpen(null),
+          },
         ]}
         options={{
           actionsColumnIndex: -1,
@@ -99,9 +110,7 @@ export default function ShoeTable() {
           pageSizeOptions: [5, 10, 15],
         }}
       />
-      {order && (
-        <OrderModal order={order} isOpen={open} isClose={handleClose} />
-      )}
+      {shoe && <ShoeModal shoe={shoe} isOpen={open} isClose={handleClose} />}
     </div>
   );
 }
