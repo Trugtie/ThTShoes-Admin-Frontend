@@ -148,7 +148,7 @@ export default function CustomizedAccordion({ permission }) {
             expanded={expanded === "panel6"}
             onChange={handleChange("panel6")}
           >
-            <Link to="/feedbackmanagement" className="link">
+            <Link to="/commentmanagement" className="link">
               <AccordionSummary
                 aria-controls="panel5d-content"
                 id="panel5d-header"
@@ -271,7 +271,7 @@ export default function CustomizedAccordion({ permission }) {
             expanded={expanded === "panel6"}
             onChange={handleChange("panel6")}
           >
-            <Link to="/feedbackmanagement" className="link">
+            <Link to="/commentmanagement" className="link">
               <AccordionSummary
                 aria-controls="panel5d-content"
                 id="panel5d-header"

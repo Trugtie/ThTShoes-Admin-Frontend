@@ -66,6 +66,31 @@ const productApi = {
       },
     });
   },
+  changeTypeLabelCate: (payload) => {
+    const url = `/nhanvien/giay/lgiayhangdanhmuc/${payload.id}`;
+    return authAxios.put(`${API_URL}${url}`, payload.data);
+  },
+  changeInfoShoes: (payload) => {
+    const url = `/nhanvien/giay`;
+    return authAxios.put(`${API_URL}${url}`, payload);
+  },
+  deleteSizeMau: (payload) => {
+    const url = `/nhanvien/giay/giaysizemau/${payload}`;
+    return authAxios.delete(`${API_URL}${url}`);
+  },
+  getAllSizeMau: async (payload) => {
+    const url = `/nhanvien/giay/giaysizemau/${payload}`;
+    const { data } = await authAxios.get(`${API_URL}${url}`);
+    return data;
+  },
+  addSizeMau: (payload) => {
+    const url = `/nhanvien/giay/giaysizemau`;
+    return authAxios.post(`${API_URL}${url}`, payload);
+  },
+  changeSoLuongSizeMau: (payload) => {
+    const url = `/nhanvien/giay/giaysizemau`;
+    return authAxios.put(`${API_URL}${url}`, payload);
+  },
   getShoeById: async (payload) => {
     const url = `/nhanvien/giay/${payload}`;
     const { data } = await authAxios.get(`${API_URL}${url}`);

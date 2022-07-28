@@ -5,3 +5,4 @@ export const customersSelector = (state) => state.customers.customerList;
 export const shoesSelector = (state) => state.shoes.shoesList;
 export const accessoriesSelector = (state) => state.accessories.accessoryList;
 export const salesSelector = (state) => state.sales.saleList;
+export const commentsSelector = (state) => state.comments.commentList;

@@ -6,6 +6,7 @@ import shoesSlice from "../components/Tables/ShoeTable/shoesSlice";
 import accessorySlice from "../components/Tables/AccessoryTable/accessorySlice";
 import saleSlice from "../components/Tables/SaleTable/saleSlice";
 import customerSlice from "../components/Tables/CustomerTable/customerSlice";
+import commentSlice from "../components/Tables/CommentTable/commentSlice";
 const store = configureStore({
   reducer: {
     user: userSlice.reducer,
@@ -15,6 +16,7 @@ const store = configureStore({
     shoes: shoesSlice.reducer,
     accessories: accessorySlice.reducer,
     sales: saleSlice.reducer,
+    comments: commentSlice.reducer,
   },
 });
 

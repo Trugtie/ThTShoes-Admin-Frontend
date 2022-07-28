@@ -6,6 +6,7 @@ import Slider from "../../components/Slider";
 import $ from "jquery";
 import StaffManagement from "../StaffManagement";
 import CustomerManagement from "../CustomerManagement";
+import CommentManagement from "../CommentManagement";
 import OrderManageMent from "../OrderManagement";
 import { Toaster } from "react-hot-toast";
 import ProductManageMent from "../ProductManagement";
@@ -39,6 +40,9 @@ function MasterPage() {
         break;
       case "/salemanagement":
         setTitle("Quản lý khuyến mãi");
+        break;
+      case "/commentmanagement":
+        setTitle("Quản lý bình luận");
         break;
       default:
     }
@@ -93,6 +97,7 @@ function MasterPage() {
             <Route path="/ordermanagement" element={<OrderManageMent />} />
             <Route path="/productmanagement" element={<ProductManageMent />} />
             <Route path="/salemanagement" element={<SaleManagement />} />
+            <Route path="/commentmanagement" element={<CommentManagement />} />
           </Routes>
         </div>
       </div>

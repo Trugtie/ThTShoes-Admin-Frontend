@@ -16,6 +16,7 @@ import IconButton from "@mui/material/IconButton";
 import { ColorButton, ColorButtonRed, style } from "../Styles";
 import ImageModal from "../ImageModal";
 import { fetchShoes } from "../../Tables/ShoeTable/shoesSlice";
+import SizeTable from "../../Tables/SizeTable";
 
 export default function ShoeModal({ shoe, isOpen, isClose }) {
   const dispatch = useDispatch();
@@ -43,11 +44,21 @@ export default function ShoeModal({ shoe, isOpen, isClose }) {
   const [selectedList, setSelectedList] = useState([]);
   const [openModal, setOpenModal] = useState(false);
 
+  async function getById() {
+    const result = await productApi.getShoeById(shoe.magiay);
+    setData(result);
+    setName(result.tengiay);
+    setPrice(result.gia);
+    setDescription(result.mota);
+    setMaterial(result.chatlieu);
+    setModel(result.kieudang);
+    setWeight(result.trongluong);
+    setLoai(result.loaigiay.maloaigiay);
+    setHang(result.hang.mahang);
+    setDanhMuc(result.danhmuc.madm);
+  }
+
   useLayoutEffect(() => {
-    async function getById() {
-      const result = await productApi.getShoeById(shoe.magiay);
-      setData(result);
-    }
     async function getAllType() {
       const result = await productApi.getAllLoaiGiay();
       setTypeList(result.loaiGiays);
@@ -83,7 +94,54 @@ export default function ShoeModal({ shoe, isOpen, isClose }) {
 
   return (
     <>
-      {data && returnModal(isOpen, isClose)}
+      {data &&
+        returnModal(
+          getById,
+          dispatch,
+          isOpen,
+          isClose,
+          loai,
+          hang,
+          danhMuc,
+          size,
+          color,
+          sizeName,
+          colorName,
+          count,
+          name,
+          price,
+          description,
+          material,
+          model,
+          weight,
+          openModal,
+          id,
+          setId,
+          setOpenModal,
+          handleCloseModal,
+          setName,
+          setPrice,
+          setDescription,
+          setMaterial,
+          setModel,
+          setWeight,
+          setCount,
+          setSize,
+          setColor,
+          setSizeName,
+          setColorName,
+          setLoai,
+          setHang,
+          setDanhMuc,
+          sizeList,
+          typeList,
+          cateList,
+          colorList,
+          labelList,
+          selectedList,
+          setSelectedList,
+          data
+        )}
       {shoe === "add" &&
         returnModalAdd(
           dispatch,
@@ -620,36 +678,373 @@ function returnModalAdd(
   );
 }
 
-function returnModal(isOpen, isClose) {
+function returnModal(
+  getById,
+  dispatch,
+  isOpen,
+  isClose,
+  loai,
+  hang,
+  danhMuc,
+  size,
+  color,
+  sizeName,
+  colorName,
+  count,
+  name,
+  price,
+  description,
+  material,
+  model,
+  weight,
+  openModal,
+  id,
+  setId,
+  setOpenModal,
+  handleCloseModal,
+  setName,
+  setPrice,
+  setDescription,
+  setMaterial,
+  setModel,
+  setWeight,
+  setCount,
+  setSize,
+  setColor,
+  setSizeName,
+  setColorName,
+  setLoai,
+  setHang,
+  setDanhMuc,
+  sizeList,
+  typeList,
+  cateList,
+  colorList,
+  labelList,
+  selectedList,
+  setSelectedList,
+  data
+) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const payload = {
+      magiay: data.magiay,
+      chatlieu: material,
+      gia: parseInt(price),
+      kieudang: model,
+      mota: description,
+      tengiay: name,
+      trongluong: parseInt(weight),
+    };
+    const res = productApi.changeInfoShoes(payload);
+    res
+      .then(function (response) {
+        toast.success("Đã cập nhật thông tin giày");
+        dispatch(fetchShoes());
+      })
+      .catch(function (error) {
+        toast.error("Cập nhật thất bại");
+      });
+  };
+
+  const handleChangeType = (e) => {
+    const payload = {
+      id: data.magiay,
+      data: {
+        loaigiay: {
+          maloaigiay: e.target.value,
+        },
+        hang: {
+          mahang: hang,
+        },
+        danhmuc: {
+          madm: danhMuc,
+        },
+      },
+    };
+    const res = productApi.changeTypeLabelCate(payload);
+    res
+      .then(function (response) {
+        toast.success("Đã cập nhật loại giày");
+        setLoai(e.target.value);
+      })
+      .catch(function (err) {
+        toast.error("Cập nhật loại giày thất bại");
+      });
+  };
+  const handleChangeLabel = (e) => {
+    const payload = {
+      id: data.magiay,
+      data: {
+        loaigiay: {
+          maloaigiay: loai,
+        },
+        hang: {
+          mahang: e.target.value,
+        },
+        danhmuc: {
+          madm: danhMuc,
+        },
+      },
+    };
+    const res = productApi.changeTypeLabelCate(payload);
+    res
+      .then(function (response) {
+        toast.success("Đã cập nhật hãng");
+        setHang(e.target.value);
+      })
+      .catch(function (err) {
+        toast.error("Cập nhật hãng thất bại");
+      });
+  };
+  const handleChangeCate = (e) => {
+    const payload = {
+      id: data.magiay,
+      data: {
+        loaigiay: {
+          maloaigiay: loai,
+        },
+        hang: {
+          mahang: hang,
+        },
+        danhmuc: {
+          madm: e.target.value,
+        },
+      },
+    };
+    const res = productApi.changeTypeLabelCate(payload);
+    res
+      .then(function (response) {
+        toast.success("Đã cập nhật danh mục");
+        setDanhMuc(e.target.value);
+      })
+      .catch(function (err) {
+        toast.error("Cập nhật danh mục thất bại");
+      });
+  };
   return (
     <Modal
       className="modal-container"
       open={isOpen}
-      onClose={isClose}
+      onClose={() => {
+        isClose();
+      }}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <h1 className="modal-title">NHÂN VIÊN</h1>
+        <h1 className="modal-title">GIÀY</h1>
         <div className="modal-content">
-          <h2 className="modal-subtitle">Thông tin cá nhân</h2>
+          <form onSubmit={handleSubmit}>
+            <h2 className="modal-subtitle">Thông tin giày</h2>
+            <hr className="modal-divider" />
+            <div className="modal-form">
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <TextField
+                    required
+                    id="filled-basic"
+                    label="Tên giày"
+                    variant="filled"
+                    placeholder="Nhập tên giày..."
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    required
+                    id="filled-basic"
+                    label="Giá"
+                    type="number"
+                    variant="filled"
+                    placeholder="Nhập giá..."
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    fullWidth
+                    InputProps={{
+                      inputProps: {
+                        min: 1,
+                      },
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextareaAutosize
+                    required
+                    aria-label="Mô tả"
+                    placeholder="Nhập mô tả"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    minRows={2}
+                    maxRows={2}
+                    style={{
+                      width: "100%",
+                      background: "#ece8e5",
+                      border: "none",
+                      padding: "1rem",
+                      fontSize: "1rem",
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    required
+                    id="filled-basic"
+                    label="Chất liệu"
+                    variant="filled"
+                    placeholder="Nhập chất liệu..."
+                    value={material}
+                    onChange={(e) => setMaterial(e.target.value)}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    required
+                    id="filled-basic"
+                    label="Kiểu dáng"
+                    variant="filled"
+                    placeholder="Nhập kiểu dáng..."
+                    value={model}
+                    onChange={(e) => setModel(e.target.value)}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    type="number"
+                    required
+                    id="filled-basic"
+                    label="Trọng lượng"
+                    variant="filled"
+                    placeholder="Nhập trọng lượng..."
+                    InputProps={{
+                      inputProps: {
+                        min: 1,
+                      },
+                    }}
+                    value={weight}
+                    onChange={(e) => setWeight(e.target.value)}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <ColorButton variant="contained" type="submit">
+                    Cập nhật thông tin giày
+                  </ColorButton>
+                </Grid>
+              </Grid>
+            </div>
+          </form>
+          <h2 className="modal-subtitle" style={{ marginTop: ".5rem" }}>
+            Sửa loại, hãng, danh mục
+          </h2>
+          <hr className="modal-divider" />
+          <div className="modal-form" style={{ marginTop: ".5rem" }}>
+            <Grid container spacing={2}>
+              <Grid item xs={4}>
+                <FormControl
+                  variant="filled"
+                  sx={{ width: "100%", minHeight: "100%" }}
+                >
+                  <InputLabel id="demo-simple-select-filled-label">
+                    Loại giày
+                  </InputLabel>
+                  <Select
+                    required
+                    labelId="demo-simple-select-filled-label"
+                    id="demo-simple-select-filled"
+                    value={loai}
+                    onChange={handleChangeType}
+                  >
+                    {typeList.map((item, index) => {
+                      return (
+                        <MenuItem key={index} value={item.maloaigiay}>
+                          {item.tenloai}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={4}>
+                <FormControl
+                  variant="filled"
+                  sx={{ width: "100%", minHeight: "100%" }}
+                >
+                  <InputLabel id="demo-simple-select-filled-label">
+                    Hãng
+                  </InputLabel>
+                  <Select
+                    required
+                    labelId="demo-simple-select-filled-label"
+                    id="demo-simple-select-filled"
+                    value={hang}
+                    onChange={handleChangeLabel}
+                  >
+                    {labelList.map((item, index) => {
+                      return (
+                        <MenuItem key={index} value={item.mahang}>
+                          {item.tenhang}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={4}>
+                <FormControl
+                  variant="filled"
+                  sx={{ width: "100%", minHeight: "100%" }}
+                >
+                  <InputLabel id="demo-simple-select-filled-label">
+                    Danh mục
+                  </InputLabel>
+                  <Select
+                    required
+                    labelId="demo-simple-select-filled-label"
+                    id="demo-simple-select-filled"
+                    value={danhMuc}
+                    onChange={handleChangeCate}
+                  >
+                    {cateList.map((item, index) => {
+                      return (
+                        <MenuItem key={index} value={item.madm}>
+                          {item.tendanhmuc}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </div>
+          <h2 className="modal-subtitle">Thông tin size</h2>
           <hr className="modal-divider" />
           <div className="modal-form">
             <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <TextField
-                  id="filled-basic"
-                  label="Mã nhân viên"
-                  variant="filled"
-                  defaultValue=""
+              <Grid item xs={12}>
+                <SizeTable
+                  dataList={data.giaySizeMau}
+                  colorList={colorList}
+                  sizeList={sizeList}
+                  id={data.magiay}
+                  reset={getById}
                 />
               </Grid>
             </Grid>
           </div>
-          <div className="modal-form" style={{ marginTop: "3rem" }}>
+          <div className="modal-form" style={{ marginTop: ".5rem" }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <ColorButtonRed variant="contained" onClick={isClose}>
+                <ColorButtonRed
+                  variant="contained"
+                  onClick={() => {
+                    isClose();
+                  }}
+                >
                   Thoát
                 </ColorButtonRed>
               </Grid>
