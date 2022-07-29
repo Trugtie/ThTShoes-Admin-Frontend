@@ -16,6 +16,14 @@ const saleApi = {
     const url = `/nhanvien/khuyenmai`;
     return authAxios.post(`${API_URL}${url}`, payload);
   },
+  deleteSale: (payload) => {
+    const url = `/nhanvien/khuyenmai/${payload}`;
+    return authAxios.delete(`${API_URL}${url}`);
+  },
+  changeInfoSale: (payload) => {
+    const url = `/nhanvien/khuyenmai`;
+    return authAxios.put(`${API_URL}${url}`, payload);
+  },
   addImage: (payload) => {
     const url = `/nhanvien/hinh/khuyenmai/${payload.makm}`;
     const token = localStorage.getItem("admin_access_token");

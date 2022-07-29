@@ -74,6 +74,10 @@ const productApi = {
     const url = `/nhanvien/giay`;
     return authAxios.put(`${API_URL}${url}`, payload);
   },
+  changeInfoAccessory: (payload) => {
+    const url = `/nhanvien/phukien`;
+    return authAxios.put(`${API_URL}${url}`, payload);
+  },
   deleteSizeMau: (payload) => {
     const url = `/nhanvien/giay/giaysizemau/${payload}`;
     return authAxios.delete(`${API_URL}${url}`);
@@ -93,6 +97,11 @@ const productApi = {
   },
   getShoeById: async (payload) => {
     const url = `/nhanvien/giay/${payload}`;
+    const { data } = await authAxios.get(`${API_URL}${url}`);
+    return data;
+  },
+  getAccessoryById: async (payload) => {
+    const url = `/nhanvien/phukien/${payload}`;
     const { data } = await authAxios.get(`${API_URL}${url}`);
     return data;
   },

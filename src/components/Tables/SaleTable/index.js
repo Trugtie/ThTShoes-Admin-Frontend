@@ -1,11 +1,15 @@
 import MaterialTable, { MTableToolbar } from "material-table";
 import SaleModal from "../../Modal/SaleModal";
 import Typography from "@mui/material/Typography";
+import { fetchSale } from "./saleSlice";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import saleApi from "../../../api/saleApi";
+import { useSelector, useDispatch } from "react-redux";
 import { salesSelector } from "../../../redux/selectors";
+import toast from "react-hot-toast";
 
 export default function SaleTable() {
+  const dispatch = useDispatch();
   const list = useSelector(salesSelector);
   const [open, setOpen] = useState(false);
   const [sale, setSale] = useState(null);
@@ -19,6 +23,18 @@ export default function SaleTable() {
         )
       : setSale("add");
     setOpen(true);
+  };
+
+  const handleDeleteSale = (data) => {
+    const result = saleApi.deleteSale(data.id);
+    result
+      .then(function (response) {
+        toast.success(`Đã xóa ${data.id}`);
+        dispatch(fetchSale());
+      })
+      .catch(function (error) {
+        toast.error(error.response.data);
+      });
   };
 
   return (
@@ -106,6 +122,11 @@ export default function SaleTable() {
             iconProps: { color: "info", fontSize: "large" },
             isFreeAction: true,
             onClick: (event) => handleOpen(null),
+          },
+          {
+            icon: "delete",
+            tooltip: "Xóa giày",
+            onClick: (event, rowData) => handleDeleteSale(rowData),
           },
         ]}
         options={{

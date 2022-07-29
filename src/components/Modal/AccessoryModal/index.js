@@ -28,11 +28,15 @@ export default function AccessoryModal({ accessory, isOpen, isClose }) {
   const [count, setCount] = useState("");
   const [typeList, setTypeList] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-
   useLayoutEffect(() => {
     async function getById() {
-      const result = await productApi.getShoeById(accessory.mapk);
+      const result = await productApi.getAccessoryById(accessory.mapk);
       setData(result);
+      setName(result.tenpk);
+      setPrice(result.gia);
+      setDescription(result.mota);
+      setLoai(result.loaiPhuKien.maLoaiPhuKien);
+      setCount(result.soluong);
     }
     async function getAllType() {
       const result = await productApi.getAllLoaiPK();
@@ -49,7 +53,29 @@ export default function AccessoryModal({ accessory, isOpen, isClose }) {
 
   return (
     <>
-      {data && returnModal(isOpen, isClose)}
+      {data &&
+        returnModal(
+          dispatch,
+          isOpen,
+          isClose,
+          loai,
+          count,
+          name,
+          price,
+          description,
+          openModal,
+          id,
+          setId,
+          setOpenModal,
+          handleCloseModal,
+          setName,
+          setPrice,
+          setDescription,
+          setCount,
+          setLoai,
+          typeList,
+          data
+        )}
       {accessory === "add" &&
         returnModalAdd(
           dispatch,
@@ -276,42 +302,191 @@ function returnModalAdd(
   );
 }
 
-function returnModal(isOpen, isClose) {
+function returnModal(
+  dispatch,
+  isOpen,
+  isClose,
+  loai,
+  count,
+  name,
+  price,
+  description,
+  openModal,
+  id,
+  setId,
+  setOpenModal,
+  handleCloseModal,
+  setName,
+  setPrice,
+  setDescription,
+  setCount,
+  setLoai,
+  typeList,
+  data
+) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const payload = {
+      mapk: data.mapk,
+      gia: parseInt(price),
+      mota: description,
+      soluong: parseInt(count),
+      tenpk: name,
+      maLoaiPk: loai,
+      motaSoLuong: "Nhập thêm",
+    };
+    const res = productApi.changeInfoAccessory(payload);
+    res
+      .then(function (response) {
+        toast.success("Đã cập nhật phụ kiện!");
+        dispatch(fetchAccessory());
+      })
+      .catch(function (error) {
+        toast.error("Cập nhật thất bại");
+      });
+  };
   return (
     <Modal
       className="modal-container"
       open={isOpen}
-      onClose={isClose}
+      onClose={() => {
+        isClose();
+      }}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <h1 className="modal-title">NHÂN VIÊN</h1>
-        <div className="modal-content">
-          <h2 className="modal-subtitle">Thông tin cá nhân</h2>
-          <hr className="modal-divider" />
-          <div className="modal-form">
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <TextField
-                  id="filled-basic"
-                  label="Mã nhân viên"
-                  variant="filled"
-                  defaultValue=""
-                />
+        <form onSubmit={handleSubmit}>
+          <h1 className="modal-title">PHỤ KIỆN</h1>
+          <div className="modal-content">
+            <h2 className="modal-subtitle">Thông tin phụ kiện</h2>
+            <hr className="modal-divider" />
+            <div className="modal-form">
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <TextField
+                    required
+                    id="filled-basic"
+                    label="Tên phụ kiện"
+                    variant="filled"
+                    placeholder="Nhập tên phụ kiện..."
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl
+                    variant="filled"
+                    sx={{ width: "100%", minHeight: "100%" }}
+                  >
+                    <InputLabel id="demo-simple-select-filled-label">
+                      Loại phụ kiện
+                    </InputLabel>
+                    <Select
+                      required
+                      labelId="demo-simple-select-filled-label"
+                      id="demo-simple-select-filled"
+                      value={loai}
+                      onChange={(e) => setLoai(e.target.value)}
+                    >
+                      {typeList.map((item, index) => {
+                        return (
+                          <MenuItem key={index} value={item.maLoaiPhuKien}>
+                            {item.tenLoaiPhuKien}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    required
+                    id="filled-basic"
+                    label="Giá"
+                    type="number"
+                    variant="filled"
+                    placeholder="Nhập giá..."
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    fullWidth
+                    InputProps={{
+                      inputProps: {
+                        min: 1,
+                      },
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <TextField
+                    id="filled-basic"
+                    label="Số lượng"
+                    variant="filled"
+                    placeholder="Nhập số lượng..."
+                    defaultValue=""
+                    type="number"
+                    value={count}
+                    onChange={(e) => {
+                      if (e.target.value <= 0) setCount("");
+                      else setCount(e.target.value);
+                    }}
+                    fullWidth
+                    InputProps={{
+                      inputProps: {
+                        min: 1,
+                      },
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextareaAutosize
+                    required
+                    aria-label="Mô tả"
+                    placeholder="Nhập mô tả"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    minRows={5}
+                    maxRows={5}
+                    style={{
+                      width: "100%",
+                      background: "#ece8e5",
+                      border: "none",
+                      padding: "1rem",
+                      fontSize: "1rem",
+                    }}
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-          </div>
-          <div className="modal-form" style={{ marginTop: "3rem" }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <ColorButtonRed variant="contained" onClick={isClose}>
-                  Thoát
-                </ColorButtonRed>
+            </div>
+            <div className="modal-form" style={{ marginTop: ".5rem" }}>
+              <Grid container spacing={2}>
+                <Grid item xs={8}>
+                  <ColorButton variant="contained" type="submit">
+                    Cập nhật thông tin phụ kiện
+                  </ColorButton>
+                </Grid>
+                <Grid item xs={4}>
+                  <ColorButtonRed
+                    variant="contained"
+                    onClick={() => {
+                      isClose();
+                    }}
+                  >
+                    Thoát
+                  </ColorButtonRed>
+                </Grid>
               </Grid>
-            </Grid>
+            </div>
           </div>
-        </div>
+        </form>
+        <ImageModal
+          id={id}
+          isOpen={openModal}
+          isClose={handleCloseModal}
+          closeAdd={isClose}
+        />
       </Box>
     </Modal>
   );

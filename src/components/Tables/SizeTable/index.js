@@ -43,6 +43,11 @@ function SizeTable({ dataList, colorList, sizeList, id, reset }) {
             field: "soluong",
             type: "numeric",
           },
+          {
+            title: "Notes",
+            field: "notes",
+            editable: "onUpdate",
+          },
         ]}
         components={{
           Toolbar: (props) => (
@@ -103,10 +108,11 @@ function SizeTable({ dataList, colorList, sizeList, id, reset }) {
               }),
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
+              
               const payload = {
                 id: oldData.id,
                 soluong: parseInt(newData.soluong),
-                note: "Nhập thêm hàng",
+                note: newData.notes,
               };
               const res = productApi.changeSoLuongSizeMau(payload);
               setTimeout(() => {

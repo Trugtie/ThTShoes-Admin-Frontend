@@ -27,6 +27,10 @@ export default function SaleModal({ sale, isOpen, isClose }) {
   const [imageFile, setImageFile] = useState();
   const [id, setId] = useState("");
   const [add, setAdd] = useState(true);
+  const [title, setTitle] = useState("");
+  const [count, setCount] = useState("");
+  const [description, setDescription] = useState("");
+  const [cost, setCost] = useState("");
 
   useLayoutEffect(() => {
     async function getById() {
@@ -34,6 +38,10 @@ export default function SaleModal({ sale, isOpen, isClose }) {
       setData(result);
       setStartDate(result.ngaybd);
       setEndDate(result.ngaykt);
+      setTitle(result.tieude);
+      setCount(result.soluong);
+      setDescription(result.mota);
+      setCost(result.giatrigiam);
     }
     getById();
     return () => {
@@ -131,7 +139,15 @@ export default function SaleModal({ sale, isOpen, isClose }) {
     <>
       {data &&
         returnModal(
+          cost,
+          setCost,
           data,
+          title,
+          count,
+          description,
+          setTitle,
+          setCount,
+          setDescription,
           isOpen,
           isClose,
           dispatch,
@@ -171,7 +187,15 @@ export default function SaleModal({ sale, isOpen, isClose }) {
 }
 
 function returnModal(
+  cost,
+  setCost,
   data,
+  title,
+  count,
+  description,
+  setTitle,
+  setCount,
+  setDescription,
   isOpen,
   isClose,
   dispatch,
@@ -180,6 +204,27 @@ function returnModal(
   endDate,
   setEndDate
 ) {
+  const handleSubmitUpdate = (e) => {
+    e.preventDefault();
+    const payload = {
+      makm: data.makm,
+      giatrigiam: cost,
+      mota: description,
+      ngaybd: startDate,
+      ngaykt: endDate,
+      soluong: count,
+      tieude: title,
+    };
+    const res = saleApi.changeInfoSale(payload);
+    res
+      .then(function (response) {
+        toast.success("Đã cập nhật thông tin khuyến mãi !");
+        dispatch(fetchSale());
+      })
+      .catch(function (err) {
+        toast.error("Cập nhật thất bại !");
+      });
+  };
   return (
     <Modal
       className="modal-container"
@@ -189,128 +234,148 @@ function returnModal(
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <h1 className="modal-title">KHUYẾN MÃI</h1>
-        <div className="modal-content">
-          <h2 className="modal-subtitle">Thông tin khuyến mãi</h2>
-          <hr className="modal-divider" />
-          <div className="modal-form">
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <TextField
-                  id="filled-basic"
-                  label="Mã khuyến mãi"
-                  variant="filled"
-                  defaultValue={data.makm}
-                  fullWidth
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  id="filled-basic"
-                  label="Tiêu đề"
-                  variant="filled"
-                  placeholder="Nhập tiêu đề..."
-                  defaultValue={data.tieude}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <LocalizationProvider
-                  dateAdapter={AdapterDateFns}
-                  locale={frLocale}
-                >
-                  <DatePicker
-                    label="Ngày bắt đầu"
-                    value={startDate}
-                    onChange={(newValue) => {
-                      setStartDate(newValue);
-                      setEndDate(
-                        new Date().setDate(new Date(newValue).getDate() + 1)
-                      );
+        <form onSubmit={handleSubmitUpdate}>
+          <h1 className="modal-title">KHUYẾN MÃI</h1>
+          <div className="modal-content">
+            <h2 className="modal-subtitle">Thông tin khuyến mãi</h2>
+            <hr className="modal-divider" />
+            <div className="modal-form">
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <TextField
+                    id="filled-basic"
+                    label="Mã khuyến mãi"
+                    variant="filled"
+                    defaultValue={data.makm}
+                    fullWidth
+                    InputProps={{
+                      readOnly: true,
                     }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        id="filled-basic"
-                        variant="filled"
-                        fullWidth
-                      />
-                    )}
                   />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={6}>
-                <LocalizationProvider
-                  dateAdapter={AdapterDateFns}
-                  locale={frLocale}
-                >
-                  <DatePicker
-                    label="Ngày kết thúc"
-                    value={endDate}
-                    onChange={(newValue) => {
-                      setEndDate(newValue);
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        id="filled-basic"
-                        variant="filled"
-                        fullWidth
-                      />
-                    )}
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    id="filled-basic"
+                    label="Tiêu đề"
+                    variant="filled"
+                    placeholder="Nhập tiêu đề..."
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    fullWidth
                   />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={12}>
-                <Grid item xs={12}>
+                </Grid>
+                <Grid item xs={6}>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDateFns}
+                    locale={frLocale}
+                  >
+                    <DatePicker
+                      label="Ngày bắt đầu"
+                      value={startDate}
+                      onChange={(newValue) => {
+                        setStartDate(newValue);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          required
+                          id="filled-basic"
+                          variant="filled"
+                          fullWidth
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={6}>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDateFns}
+                    locale={frLocale}
+                  >
+                    <DatePicker
+                      label="Ngày kết thúc"
+                      value={endDate}
+                      minDate={new Date().setDate(
+                        new Date(startDate).getDate() + 1
+                      )}
+                      onChange={(newValue) => {
+                        setEndDate(newValue);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          required
+                          id="filled-basic"
+                          variant="filled"
+                          fullWidth
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={6}>
                   <TextField
                     id="filled-basic"
                     label="Số lượng"
                     variant="filled"
                     type="number"
-                    defaultValue={data.soluong}
+                    value={count}
+                    onChange={(e) => setCount(e.target.value)}
                     fullWidth
                   />
                 </Grid>
-              </Grid>
-              <Grid item xs={12}>
-                <Grid item xs={12}>
-                  <TextareaAutosize
-                    aria-label="Mô tả"
-                    placeholder="Nhâp mô tả"
-                    defaultValue={data.mota}
-                    minRows={10}
-                    maxRows={10}
-                    style={{
-                      width: "100%",
-                      background: "#ece8e5",
-                      border: "none",
-                      padding: "1rem",
-                      fontSize: "1rem",
-                    }}
+                <Grid item xs={6}>
+                  <TextField
+                    id="filled-basic"
+                    label="Giá trị giảm (%)"
+                    variant="filled"
+                    type="number"
+                    value={cost}
+                    onChange={(e) => setCost(e.target.value)}
+                    fullWidth
                   />
                 </Grid>
+                <Grid item xs={12}>
+                  <Grid item xs={12}>
+                    <TextareaAutosize
+                      aria-label="Mô tả"
+                      placeholder="Nhâp mô tả"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      minRows={10}
+                      maxRows={10}
+                      style={{
+                        width: "100%",
+                        background: "#ece8e5",
+                        border: "none",
+                        padding: "1rem",
+                        fontSize: "1rem",
+                      }}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
-            </Grid>
+            </div>
+            <div className="modal-form" style={{ marginTop: "3rem" }}>
+              <Grid container spacing={2}>
+                <Grid item xs={8}>
+                  <ColorButton variant="contained" type="submit">
+                    Cập nhật khuyến mãi
+                  </ColorButton>
+                </Grid>
+                <Grid item xs={4}>
+                  <ColorButtonRed
+                    variant="contained"
+                    type="button"
+                    onClick={isClose}
+                  >
+                    Thoát
+                  </ColorButtonRed>
+                </Grid>
+              </Grid>
+            </div>
           </div>
-          <div className="modal-form" style={{ marginTop: "3rem" }}>
-            <Grid container spacing={2}>
-              <Grid item xs={8}>
-                <ColorButton variant="contained">
-                  Cập nhật khuyến mãi
-                </ColorButton>
-              </Grid>
-              <Grid item xs={4}>
-                <ColorButtonRed variant="contained" onClick={isClose}>
-                  Thoát
-                </ColorButtonRed>
-              </Grid>
-            </Grid>
-          </div>
-        </div>
+        </form>
       </Box>
     </Modal>
   );
