@@ -1,0 +1,109 @@
+.comment-title {
+  text-align: left;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.user-comment-name {
+  font-size: 1.3rem;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.user-comment-description {
+  font-size: 1.2rem;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.comment-relative-time {
+  font-size: 1rem;
+  text-align: left;
+  color: rgb(94, 94, 94);
+}
+.comment-container {
+  margin-bottom: 5rem;
+
+  .paper-comment {
+    background-color: white;
+    padding: 40px 20px;
+    max-height: 600px;
+    overflow-y: auto;
+  }
+
+  .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+    font: inherit;
+    letter-spacing: inherit;
+    color: currentColor;
+    padding: 1px 0 5px;
+    border: 0;
+    box-sizing: content-box;
+    background: none;
+    height: 1.4375em;
+    margin: 0;
+    -webkit-tap-highlight-color: transparent;
+    display: block;
+    min-width: 0;
+    width: 100%;
+    -webkit-animation-name: mui-auto-fill-cancel;
+    animation-name: mui-auto-fill-cancel;
+    -webkit-animation-duration: 10ms;
+    animation-duration: 10ms;
+    padding: 16.5px 14px;
+    padding-right: 0;
+  }
+  .css-d5ox47-MuiButtonBase-root-MuiIconButton-root {
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    background-color: transparent;
+    outline: 0;
+    border: 0;
+    margin: 0;
+    border-radius: 0;
+    padding: 0;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    vertical-align: middle;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    font-size: 1.5rem;
+    padding: 8px;
+    border-radius: 50%;
+    overflow: visible;
+    color: rgba(0, 0, 0, 0.54);
+    -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    color: white;
+    background-color: hsl(214deg 100% 59%);
+    border-radius: 0.3rem;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    font-size: 1.2rem;
+    &:hover {
+      background-color: black;
+    }
+  }
+}

@@ -20,11 +20,11 @@ export default function OrderTable() {
   };
 
   return (
-    <div className='table-mui-container'>
+    <div className="table-mui-container">
       <MaterialTable
         columns={[
           { title: "ID", field: "madon" },
-          { title: "Ngày tạo", field: "ngaytao" },
+          { title: "Ngày tạo", field: "ngaytao", defaultSort: "desc" },
           { title: "Người nhận", field: "nguoinhan" },
           { title: "SĐT", field: "sdt" },
           { title: "Địa chỉ", field: "diachi" },
@@ -37,6 +37,7 @@ export default function OrderTable() {
               CHODUYET: "Chờ duyệt",
               DADUYET: "Đã duyệt",
               TUCHOI: "Từ chối",
+              HUY: "Đã hủy",
             },
           },
         ]}
@@ -44,7 +45,9 @@ export default function OrderTable() {
           const dateCreate = new Date(item.ngaytao);
           return {
             madon: item.madon,
-            ngaytao: `${dateCreate.getDate()}/${dateCreate.getMonth()+1}/${dateCreate.getFullYear()} - ${dateCreate.getHours()}:${dateCreate.getMinutes()}:${dateCreate.getSeconds()}`,
+            ngaytao: `${dateCreate.getDate()}/${
+              dateCreate.getMonth() + 1
+            }/${dateCreate.getFullYear()} - ${dateCreate.getHours()}:${dateCreate.getMinutes()}:${dateCreate.getSeconds()}`,
             nguoinhan: item.nguoinhan,
             sdt:
               item.khachvanglai === null

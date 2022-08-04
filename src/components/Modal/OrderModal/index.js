@@ -20,6 +20,7 @@ import {
   StyledTableCell,
   StyledTableRow,
 } from "../Styles";
+import ActionOrderTable from "../../Tables/ActionOrderTable";
 
 export default function OrderModal({ order, isOpen, isClose }) {
   const dispatch = useDispatch();
@@ -149,6 +150,9 @@ function returnModal(data, isOpen, isClose, dispatch) {
                       : data.khachvanglai.diachi
                   }
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <ActionOrderTable actions={data.actions} />
               </Grid>
             </Grid>
           </div>

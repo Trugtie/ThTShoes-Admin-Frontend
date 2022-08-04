@@ -5,8 +5,12 @@ import { commentsSelector } from "../../../redux/selectors";
 import toast from "react-hot-toast";
 import commentApi from "../../../api/commentApi";
 import { fetchComments } from "./commentSlice";
+import { useState } from "react";
+import CommentModal from "../../Modal/CommentModal";
 
 export default function CommentTable() {
+  const [open, setOpen] = useState(false);
+  const [comment, setComment] = useState(null);
   const dispatch = useDispatch();
   const list = useSelector(commentsSelector);
 
@@ -20,6 +24,16 @@ export default function CommentTable() {
       .catch(function (error) {
         toast.error(error.response.data);
       });
+  };
+
+  const handleClose = () => setOpen(false);
+  const handleOpen = (data) => {
+    setComment(
+      list.find((item) => {
+        return item.mabl === data.blid;
+      })
+    );
+    setOpen(true);
   };
 
   return (
@@ -69,7 +83,7 @@ export default function CommentTable() {
           {
             icon: "info",
             tooltip: "Chi tiết",
-            onClick: (event, rowData) => alert(rowData),
+            onClick: (event, rowData) => handleOpen(rowData),
             iconProps: { style: { color: "var(--button-green-color)" } },
           },
           {
@@ -84,6 +98,9 @@ export default function CommentTable() {
           pageSizeOptions: [10, 15, 20],
         }}
       />
+      {comment && (
+        <CommentModal comment={comment} isOpen={open} isClose={handleClose} />
+      )}
     </div>
   );
 }

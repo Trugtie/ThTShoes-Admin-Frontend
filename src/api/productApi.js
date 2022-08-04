@@ -91,6 +91,26 @@ const productApi = {
     const url = `/nhanvien/giay/giaysizemau`;
     return authAxios.post(`${API_URL}${url}`, payload);
   },
+  addMau: (payload) => {
+    const url = `/nhanvien/mausac`;
+    return authAxios.post(`${API_URL}${url}`, payload);
+  },
+  addSize: (payload) => {
+    const url = `/nhanvien/size`;
+    return authAxios.post(`${API_URL}${url}`, payload);
+  },
+  addCate: (payload) => {
+    const url = `/nhanvien/danhmuc`;
+    return authAxios.post(`${API_URL}${url}`, payload);
+  },
+  addShoesType: (payload) => {
+    const url = `/nhanvien/loaigiay`;
+    return authAxios.post(`${API_URL}${url}`, payload);
+  },
+  addAccessoryType: (payload) => {
+    const url = `/nhanvien/loaiphukien`;
+    return authAxios.post(`${API_URL}${url}`, payload);
+  },
   changeSoLuongSizeMau: (payload) => {
     const url = `/nhanvien/giay/giaysizemau`;
     return authAxios.put(`${API_URL}${url}`, payload);

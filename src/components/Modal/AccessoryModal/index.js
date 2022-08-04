@@ -16,6 +16,7 @@ import IconButton from "@mui/material/IconButton";
 import { ColorButton, ColorButtonRed, style } from "../Styles";
 import ImageModal from "../ImageModal";
 import { fetchAccessory } from "../../Tables/AccessoryTable/accessorySlice";
+import ActionsTable from "../../Tables/ActionTable";
 
 export default function AccessoryModal({ accessory, isOpen, isClose }) {
   const dispatch = useDispatch();
@@ -457,6 +458,9 @@ function returnModal(
                       fontSize: "1rem",
                     }}
                   />
+                </Grid>
+                <Grid item xs={12}>
+                  <ActionsTable actions={data.soluongphukiens} />
                 </Grid>
               </Grid>
             </div>

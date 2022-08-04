@@ -17,6 +17,7 @@ import { ColorButton, ColorButtonRed, style } from "../Styles";
 import ImageModal from "../ImageModal";
 import { fetchShoes } from "../../Tables/ShoeTable/shoesSlice";
 import SizeTable from "../../Tables/SizeTable";
+import ActionsTable from "../../Tables/ActionTable";
 
 export default function ShoeModal({ shoe, isOpen, isClose }) {
   const dispatch = useDispatch();
@@ -1033,6 +1034,9 @@ function returnModal(
                   id={data.magiay}
                   reset={getById}
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <ActionsTable actions={data.soluonggiay} />
               </Grid>
             </Grid>
           </div>
