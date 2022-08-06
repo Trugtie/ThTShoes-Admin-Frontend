@@ -1,9 +1,8 @@
 import Typography from "@mui/material/Typography";
 import MaterialTable, { MTableToolbar } from "material-table";
-import productApi from "../../../api/productApi";
-import { useState, memo } from "react";
-import { useDispatch } from "react-redux";
+import { memo, useState } from "react";
 import toast from "react-hot-toast";
+import productApi from "../../../api/productApi";
 import "./styles.scss";
 
 function SizeTable({ dataList, colorList, sizeList, id, reset }) {
@@ -16,8 +15,6 @@ function SizeTable({ dataList, colorList, sizeList, id, reset }) {
     (obj, item) => ({ ...obj, [item.masize]: item.tensize }),
     {}
   );
-
-  console.log(colorObj);
 
   const [data, setData] = useState(dataCopy);
 

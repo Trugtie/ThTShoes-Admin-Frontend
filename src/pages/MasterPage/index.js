@@ -7,6 +7,7 @@ import $ from "jquery";
 import StaffManagement from "../StaffManagement";
 import CustomerManagement from "../CustomerManagement";
 import CommentManagement from "../CommentManagement";
+import StatisticalManagement from "../StatisticalManagement";
 import OrderManageMent from "../OrderManagement";
 import { Toaster } from "react-hot-toast";
 import ProductManageMent from "../ProductManagement";
@@ -22,7 +23,7 @@ function MasterPage() {
   };
 
   let location = useLocation();
-  const [title, setTitle] = useState("Quản lý khách hàng");
+  const [title, setTitle] = useState("Tổng quan và thống kê");
 
   useEffect(() => {
     switch (location.pathname) {
@@ -43,6 +44,9 @@ function MasterPage() {
         break;
       case "/commentmanagement":
         setTitle("Quản lý bình luận");
+        break;
+      case "/statisticalmanagement":
+        setTitle("Tổng quan và thống kê");
         break;
       default:
     }
@@ -88,7 +92,7 @@ function MasterPage() {
         </div>
         <div className="Content-layout">
           <Routes>
-            <Route path="/" element={<CustomerManagement />} />
+            <Route path="/" element={<StatisticalManagement />} />
             <Route path="/staffmanagement" element={<StaffManagement />} />
             <Route
               path="/customermanagement"
@@ -98,6 +102,7 @@ function MasterPage() {
             <Route path="/productmanagement" element={<ProductManageMent />} />
             <Route path="/salemanagement" element={<SaleManagement />} />
             <Route path="/commentmanagement" element={<CommentManagement />} />
+            <Route path="/statisticalmanagement" element={<StatisticalManagement />} />
           </Routes>
         </div>
       </div>

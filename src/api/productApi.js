@@ -103,6 +103,10 @@ const productApi = {
     const url = `/nhanvien/danhmuc`;
     return authAxios.post(`${API_URL}${url}`, payload);
   },
+  addLabel: (payload) => {
+    const url = `/nhanvien/hang`;
+    return authAxios.post(`${API_URL}${url}`, payload);
+  },
   addShoesType: (payload) => {
     const url = `/nhanvien/loaigiay`;
     return authAxios.post(`${API_URL}${url}`, payload);

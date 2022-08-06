@@ -14,6 +14,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
+import { connect } from "../../../websocket/socket";
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -56,6 +57,7 @@ function LoginForm() {
     dispatch(getMyInfo())
       .unwrap()
       .then((originalPromiseResult) => {
+        connect();
         navigate("/");
       })
       .catch(() => {

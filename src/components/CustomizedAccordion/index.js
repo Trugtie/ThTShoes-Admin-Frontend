@@ -7,11 +7,12 @@ import SaleIcon from "../../assets/saleIcon.svg";
 import ProductIcon from "../../assets/productIcon.svg";
 import OrderIcon from "../../assets/orderIcon.svg";
 import CommentIcon from "../../assets/commentIcon.svg";
+import ChartIcon from "../../assets/chart.svg";
 import { Accordion, AccordionSummary } from "./style";
 import { useSelector } from "react-redux";
 import { userSelector } from "../../redux/selectors";
 
-export default function CustomizedAccordion({ permission }) {
+export default function CustomizedAccordion() {
   const user = useSelector(userSelector);
 
   const [expanded, setExpanded] = React.useState("");
@@ -168,6 +169,30 @@ export default function CustomizedAccordion({ permission }) {
               </AccordionSummary>
             </Link>
           </Accordion>
+          <Accordion
+            expanded={expanded === "panel7"}
+            onChange={handleChange("panel7")}
+          >
+            <Link to="/statisticalmanagement" className="link">
+              <AccordionSummary
+                aria-controls="panel6d-content"
+                id="panel6d-header"
+                sx={{
+                  "&:hover": {
+                    bgcolor: "black",
+                  },
+                  "&:focus": {
+                    bgcolor: "black",
+                  },
+                }}
+              >
+                <div className="icon-bg">
+                  <img src={ChartIcon} />
+                </div>
+                <div className="acor-heading">TỔNG QUAN VÀ THỐNG KÊ</div>
+              </AccordionSummary>
+            </Link>
+          </Accordion>
         </React.Fragment>
       ) : (
         <React.Fragment>
@@ -288,6 +313,30 @@ export default function CustomizedAccordion({ permission }) {
                   <img src={CommentIcon} />
                 </div>
                 <div className="acor-heading">QUẢN LÝ BÌNH LUẬN</div>
+              </AccordionSummary>
+            </Link>
+          </Accordion>
+          <Accordion
+            expanded={expanded === "panel7"}
+            onChange={handleChange("panel7")}
+          >
+            <Link to="/statisticalmanagement" className="link">
+              <AccordionSummary
+                aria-controls="panel6d-content"
+                id="panel6d-header"
+                sx={{
+                  "&:hover": {
+                    bgcolor: "black",
+                  },
+                  "&:focus": {
+                    bgcolor: "black",
+                  },
+                }}
+              >
+                <div className="icon-bg">
+                  <img src={ChartIcon} />
+                </div>
+                <div className="acor-heading">TỔNG QUAN VÀ THỐNG KÊ</div>
               </AccordionSummary>
             </Link>
           </Accordion>

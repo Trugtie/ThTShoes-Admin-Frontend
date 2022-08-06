@@ -49,7 +49,7 @@ export default function CommentTable() {
         data={list.map((item) => {
           const itemName =
             item.giay !== null ? item.giay.tengiay : item.phukien.tenpk;
-          console.log(itemName);
+
           const dateCreate = new Date(item.thoigian);
 
           return {

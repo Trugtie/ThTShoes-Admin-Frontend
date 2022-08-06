@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import userSlice from "./userSlice";
 import { userSelector } from "../../redux/selectors";
 import StarIcon from "../../assets/star.svg";
+import { disconnect } from "../../websocket/socket";
+
 function Nav() {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
@@ -26,6 +28,7 @@ function Nav() {
   };
   const handleExit = () => {
     dispatch(userSlice.actions.logout());
+    disconnect();
   };
 
   return (
