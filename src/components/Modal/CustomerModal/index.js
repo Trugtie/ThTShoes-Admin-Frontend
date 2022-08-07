@@ -42,7 +42,7 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <h1 className="modal-title">NHÂN VIÊN</h1>
+        <h1 className="modal-title">KHÁCH HÀNG</h1>
         <div className="modal-content">
           <h2 className="modal-subtitle">Thông tin cá nhân</h2>
           <hr className="modal-divider" />

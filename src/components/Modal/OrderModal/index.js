@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import orderApi from "../../../api/orderApi";
 import { duyetDonHang } from "../../Tables/OrderTable/orderSlice";
-import { toggleBlur } from "../../BlurLoading";
+import BlurLoading, { toggleBlur } from "../../BlurLoading";
 import {
   ColorButton,
   ColorButtonRed,
@@ -36,10 +36,10 @@ export default function OrderModal({ order, isOpen, isClose }) {
     getById();
   }, [order]);
 
-  return <>{data && returnModal(data, isOpen, isClose, dispatch)}</>;
+  return <>{data && returnModal(data, setData, isOpen, isClose, dispatch)}</>;
 }
 
-function returnModal(data, isOpen, isClose, dispatch) {
+function returnModal(data, setData, isOpen, isClose, dispatch) {
   const dateCreate = new Date(data.ngaytao);
   const date = `${dateCreate.getDate()}/${dateCreate.getMonth()}/${dateCreate.getFullYear()} - ${dateCreate.getHours()}:${dateCreate.getMinutes()}:${dateCreate.getSeconds()}`;
   const status =
@@ -54,11 +54,15 @@ function returnModal(data, isOpen, isClose, dispatch) {
     <Modal
       className="modal-container"
       open={isOpen}
-      onClose={isClose}
+      onClose={() => {
+        setData(null);
+        isClose();
+      }}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <BlurLoading />
         <h1 className="modal-title">ĐƠN HÀNG</h1>
         <div className="modal-content">
           <h2 className="modal-subtitle">Thông tin đơn hàng</h2>
@@ -288,6 +292,7 @@ function returnModal(data, isOpen, isClose, dispatch) {
                             } else {
                               toggleBlur();
                               toast.success("Duyệt đơn thành công");
+                              setData(null);
                               isClose();
                             }
                           })
@@ -315,6 +320,7 @@ function returnModal(data, isOpen, isClose, dispatch) {
                           .then((originalPromiseResult) => {
                             toggleBlur();
                             toast.success("Đã từ chối đơn hàng");
+                            setData(null);
                             isClose();
                           })
                           .catch((rejectedValueOrSerializedError) => {
@@ -340,6 +346,7 @@ function returnModal(data, isOpen, isClose, dispatch) {
                           .then((originalPromiseResult) => {
                             toggleBlur();
                             toast.success("Hoàn thành đơn hàng");
+                            setData(null);
                             isClose();
                           })
                           .catch((rejectedValueOrSerializedError) => {
@@ -354,7 +361,13 @@ function returnModal(data, isOpen, isClose, dispatch) {
                 </>
               ) : (
                 <Grid item xs={12}>
-                  <ColorButtonRed variant="contained" onClick={isClose}>
+                  <ColorButtonRed
+                    variant="contained"
+                    onClick={() => {
+                      setData(null);
+                      isClose();
+                    }}
+                  >
                     Thoát
                   </ColorButtonRed>
                 </Grid>

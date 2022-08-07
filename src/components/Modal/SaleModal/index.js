@@ -16,6 +16,7 @@ import * as yup from "yup";
 import saleApi from "../../../api/saleApi";
 import { fetchSale } from "../../Tables/SaleTable/saleSlice";
 import { ColorButton, style, ColorButtonRed } from "../Styles";
+import BlurLoading, { toggleBlur } from "../../BlurLoading";
 
 export default function SaleModal({ sale, isOpen, isClose }) {
   const dispatch = useDispatch();
@@ -75,17 +76,20 @@ export default function SaleModal({ sale, isOpen, isClose }) {
   });
 
   const onSubmit = (data) => {
+    toggleBlur();
     data.ngaybd = startDate.toISOString().substring(0, 10);
     data.ngaykt = endDate.toISOString().substring(0, 10);
     const res = saleApi.addSale(data);
     res
       .then(function (response) {
+        toggleBlur();
         dispatch(fetchSale());
         toast.success("Đã thêm thông tin khuyến mãi, hãy thêm hình !");
         setId(response.data);
         setAdd(false);
       })
       .catch(function (error) {
+        toggleBlur();
         toast.error("Thêm thất bại !");
       });
   };
@@ -107,6 +111,7 @@ export default function SaleModal({ sale, isOpen, isClose }) {
 
   const onSubmitImage = (data) => {
     if (image.length > 0) {
+      toggleBlur();
       let formData = new FormData();
       formData.append("imageKm", imageFile);
 
@@ -117,6 +122,7 @@ export default function SaleModal({ sale, isOpen, isClose }) {
       const res = saleApi.addImage(payload);
       res
         .then(function (response) {
+          toggleBlur();
           dispatch(fetchSale());
           toast.success(`Đã thêm thêm hình cho ${id} ! `);
           setData(null);
@@ -130,6 +136,7 @@ export default function SaleModal({ sale, isOpen, isClose }) {
           isClose();
         })
         .catch(function (error) {
+          toggleBlur();
           toast.error("Thêm thất bại !");
         });
     } else toast.error("Bạn chưa thêm hình !");
@@ -208,11 +215,11 @@ function returnModal(
     e.preventDefault();
     const payload = {
       makm: data.makm,
-      giatrigiam: cost,
+      giatrigiam: parseInt(cost),
       mota: description,
       ngaybd: startDate,
       ngaykt: endDate,
-      soluong: count,
+      soluong: parseInt(count),
       tieude: title,
     };
     const res = saleApi.changeInfoSale(payload);
@@ -234,6 +241,7 @@ function returnModal(
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <BlurLoading />
         <form onSubmit={handleSubmitUpdate}>
           <h1 className="modal-title">KHUYẾN MÃI</h1>
           <div className="modal-content">
@@ -425,6 +433,7 @@ function returnModalAdd(
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <BlurLoading />
         <h1 className="modal-title">KHUYẾN MÃI</h1>
         <div className="modal-content">
           <h2 className="modal-subtitle">Thông tin khuyến mãi</h2>

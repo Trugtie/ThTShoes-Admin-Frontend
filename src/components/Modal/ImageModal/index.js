@@ -9,6 +9,7 @@ import productApi from "../../../api/productApi";
 import { fetchShoes } from "../../Tables/ShoeTable/shoesSlice";
 import { fetchAccessory } from "../../Tables/AccessoryTable/accessorySlice";
 import { useDispatch } from "react-redux";
+import BlurLoadingImage, { toggleBlur } from "../../BlurLoadingImage";
 
 export default function ImageModal({ id, isOpen, isClose, closeAdd }) {
   const dispatch = useDispatch();
@@ -16,7 +17,6 @@ export default function ImageModal({ id, isOpen, isClose, closeAdd }) {
   const [imageFile, setImageFile] = useState();
   const [selectedImages, setSelectedImages] = useState([]);
   const [urlSelectedImages, setUrlSelectedImages] = useState([]);
-
   //image list
   const onSelectedFiles = (e) => {
     const selectedFiles = e.target.files;
@@ -39,9 +39,9 @@ export default function ImageModal({ id, isOpen, isClose, closeAdd }) {
 
   const handleSubmitImage = (e) => {
     e.preventDefault();
-
     console.log(selectedImages);
     if (image.length > 0 && selectedImages.length > 0) {
+      toggleBlur();
       let formData = new FormData();
       formData.append("masp", id);
       formData.append("avatar", imageFile);
@@ -51,6 +51,7 @@ export default function ImageModal({ id, isOpen, isClose, closeAdd }) {
       const res = productApi.addImage(formData);
       res
         .then(function (response) {
+          toggleBlur();
           if (id.includes("GA")) dispatch(fetchShoes());
           else dispatch(fetchAccessory());
           toast.success(`Đã thêm hình cho ${id} ! `);
@@ -58,6 +59,7 @@ export default function ImageModal({ id, isOpen, isClose, closeAdd }) {
           closeAdd();
         })
         .catch(function (error) {
+          toggleBlur();
           toast.error("Thêm thất bại !");
         });
     } else toast.error("Bạn chưa thêm hình !");
@@ -73,6 +75,7 @@ export default function ImageModal({ id, isOpen, isClose, closeAdd }) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <BlurLoadingImage />
         <h1 className="modal-title">Hình</h1>
         <div className="modal-content">
           <h2 className="modal-subtitle">Hình đại diện</h2>

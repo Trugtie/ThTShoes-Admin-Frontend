@@ -15,6 +15,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
 import { connect } from "../../../websocket/socket";
+import { toggleBlur } from "../../BlurLoading";
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -53,14 +54,15 @@ function LoginForm() {
   });
 
   const onSubmit = async (data) => {
+    toggleBlur();
     await dispatch(login(data));
     dispatch(getMyInfo())
       .unwrap()
       .then((originalPromiseResult) => {
         connect();
-        navigate("/");
       })
       .catch(() => {
+        toggleBlur();
         setErrorMes(true);
         setTimeout(() => setErrorMes(false), 3000);
       });

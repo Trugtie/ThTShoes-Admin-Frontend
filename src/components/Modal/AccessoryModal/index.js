@@ -17,6 +17,7 @@ import { ColorButton, ColorButtonRed, style } from "../Styles";
 import ImageModal from "../ImageModal";
 import { fetchAccessory } from "../../Tables/AccessoryTable/accessorySlice";
 import ActionsTable from "../../Tables/ActionTable";
+import BlurLoading, { toggleBlur } from "../../BlurLoading";
 
 export default function AccessoryModal({ accessory, isOpen, isClose }) {
   const dispatch = useDispatch();
@@ -126,6 +127,7 @@ function returnModalAdd(
 ) {
   const handleSubmit = (e) => {
     e.preventDefault();
+    toggleBlur();
     const payload = {
       gia: parseInt(price),
       mota: description,
@@ -136,12 +138,14 @@ function returnModalAdd(
     const res = productApi.addPhuKien(payload);
     res
       .then(function (response) {
+        toggleBlur();
         toast.success("Đã thêm thông tin phụ kiện, hãy thêm hình!");
         dispatch(fetchAccessory());
         setId(response.data);
         setOpenModal(true);
       })
       .catch(function (error) {
+        toggleBlur();
         toast.error("Thêm thất bại");
       });
   };
@@ -162,6 +166,7 @@ function returnModalAdd(
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <BlurLoading />
         <form onSubmit={handleSubmit}>
           <h1 className="modal-title">PHỤ KIỆN</h1>
           <div className="modal-content">
@@ -327,6 +332,7 @@ function returnModal(
 ) {
   const handleSubmit = (e) => {
     e.preventDefault();
+    toggleBlur();
     const payload = {
       mapk: data.mapk,
       gia: parseInt(price),
@@ -339,10 +345,12 @@ function returnModal(
     const res = productApi.changeInfoAccessory(payload);
     res
       .then(function (response) {
+        toggleBlur();
         toast.success("Đã cập nhật phụ kiện!");
         dispatch(fetchAccessory());
       })
       .catch(function (error) {
+        toggleBlur();
         toast.error("Cập nhật thất bại");
       });
   };
@@ -357,6 +365,7 @@ function returnModal(
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <BlurLoading />
         <form onSubmit={handleSubmit}>
           <h1 className="modal-title">PHỤ KIỆN</h1>
           <div className="modal-content">

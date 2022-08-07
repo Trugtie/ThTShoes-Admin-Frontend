@@ -19,10 +19,10 @@ import Button from "@mui/material/Button";
 import { toast } from "react-hot-toast";
 import statisticalApi from "../../api/statisticalApi";
 import moment from "moment";
-import "./style.scss";
 
 export default function OrderChart() {
   const [data, setData] = useState([]);
+  console.log(data);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const handleSubmit = () => {
@@ -36,13 +36,13 @@ export default function OrderChart() {
         ngayKt: moment(endDate).format("YYYY-MM-DD"),
       };
       console.log(payload);
-      const res = statisticalApi.getOrderByDate(payload);
+      const res = statisticalApi.getTurnOverByDate(payload);
       res
         .then(function (res) {
           const resData = res.list.map((item) => {
             return {
               thoigian: moment(item.thoigian).format("DD-MM-YYYY"),
-              tongdon: item.tong,
+              tongdoanhthu: item.tongdoanhthu,
             };
           });
           setData(resData);
@@ -61,7 +61,7 @@ export default function OrderChart() {
         sx={{ margin: "1rem 0rem", padding: "0rem 2rem" }}
       >
         <Grid item xs={6} sx={{ display: "flex", alignItems: "center" }}>
-          <h1 className="chart-title">Biểu đồ thống kê đơn hàng</h1>
+          <h1 className="chart-title">Biểu đồ thống kê doanh thu</h1>
         </Grid>
         <Grid item xs={6}>
           <Grid container spacing={2}>
@@ -136,19 +136,19 @@ export default function OrderChart() {
           <YAxis
             width={110}
             label={{
-              value: "Tổng đơn hàng",
+              value: "Tổng doanh thu",
               angle: -90,
               position: "insideLeft",
             }}
           />
           <Tooltip
-            label="Tổng đơn hàng"
+            label="Tổng doanh thu"
             contentStyle={{
               fontSize: "1rem",
             }}
           />
           <Legend iconSize={40} />
-          <Bar dataKey="tongdon" fill="#a8daf9" maxBarSize={50} />
+          <Bar dataKey="tongdoanhthu" fill="#a8daf9" maxBarSize={50} />
         </BarChart>
       </ResponsiveContainer>
     </>

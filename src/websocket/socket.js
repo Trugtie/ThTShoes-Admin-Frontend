@@ -4,16 +4,20 @@ import SockJS from "sockjs-client";
 import { over } from "stompjs";
 
 var stompClient = null;
+const token = localStorage.getItem("admin_access_token");
+if (token && stompClient === null) {
+  connect();
+}
 
 export function connect() {
   var socket = new SockJS(`${API_URL}/thtshoesws`);
   stompClient = over(socket);
-  // stompClient.connect({}, function (frame) {
-  //   console.log("Connected: " + frame);
-  //   stompClient.subscribe("/thongbao/donhang", function (res) {
-  //     showToast(JSON.parse(res.body));
-  //   });
-  // });
+  stompClient.connect({}, function (frame) {
+    console.log("Connected: " + frame);
+    stompClient.subscribe("/thongbao/donhang", function (res) {
+      showToast(JSON.parse(res.body));
+    });
+  });
 }
 
 export function disconnect() {
@@ -23,5 +27,5 @@ export function disconnect() {
 }
 
 function showToast(message) {
-  toast.success(message);
+  toast.success("*" + message.tieude + "*\n" + message.noidung);
 }

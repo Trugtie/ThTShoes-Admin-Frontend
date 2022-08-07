@@ -7,6 +7,7 @@ import { shoesSelector } from "../../../redux/selectors";
 import { fetchShoes } from "./shoesSlice";
 import productApi from "../../../api/productApi";
 import toast from "react-hot-toast";
+import ThumbGallery from "../../ThumbGallery";
 
 export default function ShoeTable() {
   const dispatch = useDispatch();
@@ -86,6 +87,7 @@ export default function ShoeTable() {
             ngaythem: `${dateCreate.getDate()}/${
               dateCreate.getMonth() + 1
             }/${dateCreate.getFullYear()} - ${dateCreate.getHours()}:${dateCreate.getMinutes()}:${dateCreate.getSeconds()}`,
+            listImg: item.hinhs,
           };
         })}
         components={{
@@ -130,6 +132,10 @@ export default function ShoeTable() {
           pageSize: 5,
           pageSizeOptions: [5, 10, 15],
         }}
+        detailPanel={(rowData) => {
+          return <ThumbGallery images={rowData.listImg} />;
+        }}
+        onRowClick={(event, rowData, togglePanel) => togglePanel()}
       />
       {shoe && <ShoeModal shoe={shoe} isOpen={open} isClose={handleClose} />}
     </div>

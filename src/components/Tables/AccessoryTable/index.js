@@ -7,6 +7,7 @@ import { accessoriesSelector } from "../../../redux/selectors";
 import { fetchAccessory } from "./accessorySlice";
 import productApi from "../../../api/productApi";
 import toast from "react-hot-toast";
+import ThumbGallery from "../../ThumbGallery";
 
 export default function AccessoryTable() {
   const dispatch = useDispatch();
@@ -83,6 +84,7 @@ export default function AccessoryTable() {
               currency: "VND",
             }),
             loaipk: item.loaiPhuKien.tenLoaiPhuKien,
+            listImg: item.hinhs,
           };
         })}
         components={{
@@ -127,6 +129,10 @@ export default function AccessoryTable() {
           pageSize: 5,
           pageSizeOptions: [5, 10, 15],
         }}
+        detailPanel={(rowData) => {
+          return <ThumbGallery images={rowData.listImg} />;
+        }}
+        onRowClick={(event, rowData, togglePanel) => togglePanel()}
       />
       {accessory && (
         <AccessoryModal

@@ -7,17 +7,7 @@ const statisticalApi = {
     const { data } = await authAxios.post(`${API_URL}${url}`, payload);
     return data;
   },
-  getShoesByDate: async (payload) => {
-    const url = `/nhanvien/thongke/giay`;
-    const { data } = await authAxios.post(`${API_URL}${url}`, payload);
-    return data;
-  },
-  getAccessoryByDate: async (payload) => {
-    const url = `/nhanvien/thongke/phukien`;
-    const { data } = await authAxios.post(`${API_URL}${url}`, payload);
-    return data;
-  },
-  getTurnoverByDate: async (payload) => {
+  getTurnOverByDate: async (payload) => {
     const url = `/nhanvien/thongke/doanhthu`;
     const { data } = await authAxios.post(`${API_URL}${url}`, payload);
     return data;

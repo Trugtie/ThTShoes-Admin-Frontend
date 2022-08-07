@@ -15,7 +15,7 @@ import * as yup from "yup";
 import staffApi from "../../../api/staffApi";
 import { addStaff, fetchStaff } from "../../Tables/StaffTable/staffSlice";
 import { ColorButton, style, ColorButtonRed } from "../Styles";
-import { toggleBlur } from "../../BlurLoading";
+import BlurLoading, { toggleBlur } from "../../BlurLoading";
 import "./style.scss";
 
 export default function BasicModal({ staff, isOpen, isClose }) {
@@ -134,6 +134,7 @@ function returnModalAdd(
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <BlurLoading />
         <form onSubmit={handleSubmit(onSubmit)}>
           <h1 className="modal-title">NHÂN VIÊN</h1>
           <div className="modal-content">
@@ -446,26 +447,32 @@ function returnModalAdd(
 
 function returnModal(isOpen, isClose, trangthai, setTrangthai, data, dispatch) {
   const handleLock = () => {
+    toggleBlur();
     const result = staffApi.lockStaff(data.manv);
     result
       .then(function (response) {
+        toggleBlur();
         toast.success(`Đã khóa ${data.manv}`);
         dispatch(fetchStaff());
         isClose();
       })
       .catch(function (error) {
+        toggleBlur();
         toast.error(error.message);
       });
   };
   const handleUnLock = () => {
+    toggleBlur();
     const result = staffApi.unlockStaff(data.manv);
     result
       .then(function (response) {
+        toggleBlur();
         toast.success(`Đã mở khóa ${data.manv}`);
         dispatch(fetchStaff());
         isClose();
       })
       .catch(function (error) {
+        toggleBlur();
         toast.error(error.message);
       });
   };
@@ -478,6 +485,7 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data, dispatch) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <BlurLoading />
         <h1 className="modal-title">NHÂN VIÊN</h1>
         <div className="modal-content">
           <h2 className="modal-subtitle">Thông tin cá nhân</h2>

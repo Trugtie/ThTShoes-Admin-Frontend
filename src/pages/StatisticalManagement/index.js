@@ -22,6 +22,7 @@ import BoxStatistical from "../../components/BoxStatistical";
 import { useSelector } from "react-redux";
 import { allSumSelector } from "../../redux/selectors";
 import OrderChart from "../../components/ChartOrder";
+import TurnOverChar from "../../components/TurnOverChart";
 
 function StatisticalManagement() {
   const dispatch = useDispatch();
@@ -91,8 +92,11 @@ function StatisticalManagement() {
               bg="linear-gradient(to right, #ff9966, #ff5e62)"
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{ paddingRight: "3rem" }}>
             <OrderChart />
+          </Grid>
+          <Grid item xs={12} sx={{ paddingRight: "3rem" }}>
+            <TurnOverChar />
           </Grid>
           <Grid item xs={12}>
             <h1 className="statistical-title">Quản lý danh mục</h1>

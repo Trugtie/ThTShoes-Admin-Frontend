@@ -63,9 +63,9 @@ function AccessoriesTable() {
           onRowAdd: (newData) =>
             new Promise((resolve, reject) => {
               const payload = {
-                tenloai: newData.tenloai,
+                tenLoaiPhuKien: newData.tenloai,
               };
-              const res = productApi.addShoesType(payload);
+              const res = productApi.addAccessoryType(payload);
               setTimeout(() => {
                 res
                   .then(function (res) {

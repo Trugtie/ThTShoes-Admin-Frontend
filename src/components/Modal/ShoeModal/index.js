@@ -18,6 +18,7 @@ import ImageModal from "../ImageModal";
 import { fetchShoes } from "../../Tables/ShoeTable/shoesSlice";
 import SizeTable from "../../Tables/SizeTable";
 import ActionsTable from "../../Tables/ActionTable";
+import BlurLoading, { toggleBlur } from "../../BlurLoading";
 
 export default function ShoeModal({ shoe, isOpen, isClose }) {
   const dispatch = useDispatch();
@@ -240,7 +241,9 @@ function returnModalAdd(
 ) {
   const handleSubmit = (e) => {
     e.preventDefault();
+    toggleBlur();
     if (selectedList.length === 0) {
+      toggleBlur();
       toast.error("Chưa thêm size!");
     } else {
       const payload = {
@@ -258,12 +261,14 @@ function returnModalAdd(
       const res = productApi.addShoe(payload);
       res
         .then(function (response) {
+          toggleBlur();
           toast.success("Đã thêm thông tin giày, hãy thêm hình!");
           dispatch(fetchShoes());
           setId(response.data);
           setOpenModal(true);
         })
         .catch(function (error) {
+          toggleBlur();
           toast.error("Thêm thất bại");
         });
     }
@@ -314,6 +319,7 @@ function returnModalAdd(
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <BlurLoading />
         <form onSubmit={handleSubmit}>
           <h1 className="modal-title">GIÀY</h1>
           <div className="modal-content">
@@ -728,6 +734,7 @@ function returnModal(
 ) {
   const handleSubmit = (e) => {
     e.preventDefault();
+    toggleBlur();
     const payload = {
       magiay: data.magiay,
       chatlieu: material,
@@ -740,15 +747,18 @@ function returnModal(
     const res = productApi.changeInfoShoes(payload);
     res
       .then(function (response) {
+        toggleBlur();
         toast.success("Đã cập nhật thông tin giày");
         dispatch(fetchShoes());
       })
       .catch(function (error) {
+        toggleBlur();
         toast.error("Cập nhật thất bại");
       });
   };
 
   const handleChangeType = (e) => {
+    toggleBlur();
     const payload = {
       id: data.magiay,
       data: {
@@ -766,14 +776,17 @@ function returnModal(
     const res = productApi.changeTypeLabelCate(payload);
     res
       .then(function (response) {
+        toggleBlur();
         toast.success("Đã cập nhật loại giày");
         setLoai(e.target.value);
       })
       .catch(function (err) {
+        toggleBlur();
         toast.error("Cập nhật loại giày thất bại");
       });
   };
   const handleChangeLabel = (e) => {
+    toggleBlur();
     const payload = {
       id: data.magiay,
       data: {
@@ -791,14 +804,17 @@ function returnModal(
     const res = productApi.changeTypeLabelCate(payload);
     res
       .then(function (response) {
+        toggleBlur();
         toast.success("Đã cập nhật hãng");
         setHang(e.target.value);
       })
       .catch(function (err) {
+        toggleBlur();
         toast.error("Cập nhật hãng thất bại");
       });
   };
   const handleChangeCate = (e) => {
+    toggleBlur();
     const payload = {
       id: data.magiay,
       data: {
@@ -816,10 +832,12 @@ function returnModal(
     const res = productApi.changeTypeLabelCate(payload);
     res
       .then(function (response) {
+        toggleBlur();
         toast.success("Đã cập nhật danh mục");
         setDanhMuc(e.target.value);
       })
       .catch(function (err) {
+        toggleBlur();
         toast.error("Cập nhật danh mục thất bại");
       });
   };
@@ -834,6 +852,7 @@ function returnModal(
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <BlurLoading />
         <h1 className="modal-title">GIÀY</h1>
         <div className="modal-content">
           <form onSubmit={handleSubmit}>
