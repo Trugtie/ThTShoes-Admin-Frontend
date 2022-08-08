@@ -17,10 +17,12 @@ export default function ActionsTable({ actions }) {
         data={actions.map((item) => {
           const description = item.mota ? item.mota : "Không có mô tả";
           const dateCreate = new Date(item.ngaythem);
+          const tenmau = "mau" in item ? item.mau.tenmau : "Không có";
+          const tensize = "size" in item ? item.size.tensize : "Không có";
           return {
             id: item.id,
-            tenmau: item.mau.tenmau ? item.mau.tenmau : "Không có",
-            tensize: item.size.tensize ? item.size.tensize : "Không có",
+            tenmau: tenmau,
+            tensize: tensize,
             mota: description,
             ngaythem: `${dateCreate.getDate()}/${
               dateCreate.getMonth() + 1
