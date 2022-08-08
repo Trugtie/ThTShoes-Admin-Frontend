@@ -30,16 +30,18 @@ export default function AccessoryModal({ accessory, isOpen, isClose }) {
   const [count, setCount] = useState("");
   const [typeList, setTypeList] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+
+  async function getById() {
+    const result = await productApi.getAccessoryById(accessory.mapk);
+    setData(result);
+    setName(result.tenpk);
+    setPrice(result.gia);
+    setDescription(result.mota);
+    setLoai(result.loaiPhuKien.maLoaiPhuKien);
+    setCount(result.soluong);
+  }
+
   useLayoutEffect(() => {
-    async function getById() {
-      const result = await productApi.getAccessoryById(accessory.mapk);
-      setData(result);
-      setName(result.tenpk);
-      setPrice(result.gia);
-      setDescription(result.mota);
-      setLoai(result.loaiPhuKien.maLoaiPhuKien);
-      setCount(result.soluong);
-    }
     async function getAllType() {
       const result = await productApi.getAllLoaiPK();
       setTypeList(result.loaiphukiens);
@@ -76,7 +78,8 @@ export default function AccessoryModal({ accessory, isOpen, isClose }) {
           setCount,
           setLoai,
           typeList,
-          data
+          data,
+          getById
         )}
       {accessory === "add" &&
         returnModalAdd(
@@ -333,7 +336,8 @@ function returnModal(
   setCount,
   setLoai,
   typeList,
-  data
+  data,
+  getById
 ) {
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -352,6 +356,7 @@ function returnModal(
       .then(function (response) {
         toggleBlur();
         toast.success("Đã cập nhật phụ kiện!");
+        getById();
         dispatch(fetchAccessory());
       })
       .catch(function (error) {
