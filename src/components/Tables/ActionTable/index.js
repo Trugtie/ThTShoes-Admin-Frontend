@@ -2,12 +2,14 @@ import MaterialTable, { MTableToolbar } from "material-table";
 import Typography from "@mui/material/Typography";
 
 export default function ActionsTable({ actions }) {
-  console.log(actions);
+  console.log("actions", actions);
   return (
     <div className="table-mui-container">
       <MaterialTable
         columns={[
           { title: "ID", field: "id" },
+          { title: "Màu", field: "tenmau" },
+          { title: "Size", field: "tensize" },
           { title: "Mô tả", field: "mota" },
           { title: "Ngày thêm", field: "ngaythem" },
           { title: "Số lượng", field: "soluong" },
@@ -17,6 +19,8 @@ export default function ActionsTable({ actions }) {
           const dateCreate = new Date(item.ngaythem);
           return {
             id: item.id,
+            tenmau: item.mau.tenmau ? item.mau.tenmau : "Không có",
+            tensize: item.size.tensize ? item.size.tensize : "Không có",
             mota: description,
             ngaythem: `${dateCreate.getDate()}/${
               dateCreate.getMonth() + 1

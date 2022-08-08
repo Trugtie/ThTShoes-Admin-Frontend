@@ -266,10 +266,25 @@ function returnModalAdd(
           dispatch(fetchShoes());
           setId(response.data);
           setOpenModal(true);
+          setName("");
+          setPrice("");
+          setDescription("");
+          setMaterial("");
+          setModel("");
+          setWeight("");
+          setLoai("");
+          setHang("");
+          setDanhMuc("");
+          setSize("");
+          setColor("");
+          setCount("");
+          setSizeName({});
+          setColorName({});
+          setSelectedList([]);
         })
         .catch(function (error) {
           toggleBlur();
-          toast.error("Thêm thất bại");
+          toast.error(error.response.data);
         });
     }
   };
@@ -404,7 +419,7 @@ function returnModalAdd(
                     type="number"
                     required
                     id="filled-basic"
-                    label="Trọng lượng"
+                    label="Trọng lượng (g)"
                     variant="filled"
                     placeholder="Nhập trọng lượng..."
                     InputProps={{
@@ -937,7 +952,7 @@ function returnModal(
                     type="number"
                     required
                     id="filled-basic"
-                    label="Trọng lượng"
+                    label="Trọng lượng (g)"
                     variant="filled"
                     placeholder="Nhập trọng lượng..."
                     InputProps={{

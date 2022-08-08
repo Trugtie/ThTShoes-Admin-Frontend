@@ -143,10 +143,15 @@ function returnModalAdd(
         dispatch(fetchAccessory());
         setId(response.data);
         setOpenModal(true);
+        setName("");
+        setPrice("");
+        setDescription("");
+        setLoai("");
+        setCount("");
       })
       .catch(function (error) {
         toggleBlur();
-        toast.error("Thêm thất bại");
+        toast.error(error.response.data);
       });
   };
 

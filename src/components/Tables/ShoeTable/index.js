@@ -71,7 +71,7 @@ export default function ShoeTable() {
             },
           },
           { title: "Giá", field: "gia" },
-          { title: "Ngày thêm", field: "ngaythem" },
+          { title: "Ngày thêm", field: "ngaythem", defaultSort: "desc" },
         ]}
         data={list.map((item) => {
           const dateCreate = new Date(item.ngaythem);
