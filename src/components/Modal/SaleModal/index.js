@@ -77,8 +77,8 @@ export default function SaleModal({ sale, isOpen, isClose }) {
 
   const onSubmit = (data) => {
     toggleBlur();
-    data.ngaybd = startDate.toISOString().substring(0, 10);
-    data.ngaykt = endDate.toISOString().substring(0, 10);
+    data.ngaybd = startDate;
+    data.ngaykt = endDate;
     const res = saleApi.addSale(data);
     res
       .then(function (response) {
@@ -303,9 +303,6 @@ function returnModal(
                     <DatePicker
                       label="Ngày kết thúc"
                       value={endDate}
-                      minDate={new Date().setDate(
-                        new Date(startDate).getDate() + 1
-                      )}
                       onChange={(newValue) => {
                         setEndDate(newValue);
                       }}
@@ -470,6 +467,7 @@ function returnModalAdd(
                       value={startDate}
                       onChange={(newValue) => {
                         setStartDate(newValue);
+                        setEndDate(null);
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -493,7 +491,7 @@ function returnModalAdd(
                       label="Ngày kết thúc"
                       value={endDate}
                       disablePast
-                      minDate={new Date().setDate(
+                      minDate={new Date(startDate).setDate(
                         new Date(startDate).getDate() + 1
                       )}
                       onChange={(newValue) => {

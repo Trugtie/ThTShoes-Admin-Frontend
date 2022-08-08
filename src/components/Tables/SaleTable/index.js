@@ -86,10 +86,10 @@ export default function SaleTable() {
             soluong: item.soluong,
             ngaybd: `${dateStart.getDate()}/${
               dateStart.getMonth() + 1
-            }/${dateStart.getFullYear()} - ${dateStart.getHours()}:${dateStart.getMinutes()}:${dateStart.getSeconds()}`,
+            }/${dateStart.getFullYear()}`,
             ngaykt: `${dateEnd.getDate()}/${
               dateEnd.getMonth() + 1
-            }/${dateEnd.getFullYear()} - ${dateEnd.getHours()}:${dateEnd.getMinutes()}:${dateEnd.getSeconds()}`,
+            }/${dateEnd.getFullYear()}`,
           };
         })}
         components={{

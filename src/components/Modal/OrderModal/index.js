@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import orderApi from "../../../api/orderApi";
@@ -28,12 +28,15 @@ export default function OrderModal({ order, isOpen, isClose }) {
   const [data, setData] = useState(null);
   console.log(data);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function getById() {
       const result = await orderApi.getById(order.madon);
       setData(result);
     }
     getById();
+    return () => {
+      setData(null);
+    };
   }, [order]);
 
   return <>{data && returnModal(data, setData, isOpen, isClose, dispatch)}</>;
@@ -41,7 +44,9 @@ export default function OrderModal({ order, isOpen, isClose }) {
 
 function returnModal(data, setData, isOpen, isClose, dispatch) {
   const dateCreate = new Date(data.ngaytao);
-  const date = `${dateCreate.getDate()}/${dateCreate.getMonth()}/${dateCreate.getFullYear()} - ${dateCreate.getHours()}:${dateCreate.getMinutes()}:${dateCreate.getSeconds()}`;
+  const date = `${dateCreate.getDate()}/${
+    dateCreate.getMonth() + 1
+  }/${dateCreate.getFullYear()} - ${dateCreate.getHours()}:${dateCreate.getMinutes()}:${dateCreate.getSeconds()}`;
   const status =
     data.tinhtrang === "DAGIAO"
       ? "Đã giao"
@@ -55,7 +60,6 @@ function returnModal(data, setData, isOpen, isClose, dispatch) {
       className="modal-container"
       open={isOpen}
       onClose={() => {
-        setData(null);
         isClose();
       }}
       aria-labelledby="modal-modal-title"

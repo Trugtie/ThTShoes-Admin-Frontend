@@ -50,7 +50,10 @@ export default function BasicModal({ staff, isOpen, isClose }) {
         password: yup
           .string()
           .required("Không được bỏ trống")
-          .min(6, "Tối thiểu 6 ký tự")
+          .matches(
+            /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+            "Tối thiểu 8 ký tự, ít nhất một ký tự hoa, một ký tự thường, một số và một ký tự đặc biệt"
+          )
           .max(18, "Tối đa 18 ký tự"),
         confirmPassword: yup
           .string()
@@ -87,12 +90,12 @@ export default function BasicModal({ staff, isOpen, isClose }) {
       .then((originalPromiseResult) => {
         toggleBlur();
         toast.success("Đã thêm 1 nhân viên !");
+        reset();
         isClose();
       })
       .catch((rejectedValueOrSerializedError) => {
         toggleBlur();
-        toast.error("Thêm thất bại !");
-        isClose();
+        toast.error(rejectedValueOrSerializedError);
       });
   };
 
@@ -225,12 +228,12 @@ function returnModalAdd(
                     render={({ field }) => (
                       <TextField
                         {...field}
+                        inputProps={{ maxLength: 10 }}
                         id="filled-basic"
                         label="Số điện thoại"
                         variant="filled"
                         fullWidth
                         placeholder="Nhập SĐT"
-                        type="number"
                         defaultValue=""
                       />
                     )}

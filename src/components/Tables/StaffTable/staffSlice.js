@@ -50,7 +50,12 @@ export const fetchStaff = createAsyncThunk("staff/fetchStaff", async () =>
 export const addStaff = createAsyncThunk(
   "staff/addStaff",
   async (payload, thunkAPI) => {
-    await staffApi.addStaff(payload);
-    thunkAPI.dispatch(fetchStaff());
+    try {
+      const res = await staffApi.addStaff(payload);
+      thunkAPI.dispatch(fetchStaff());
+      return res;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
   }
 );
