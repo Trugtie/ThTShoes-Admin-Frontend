@@ -461,7 +461,7 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data, dispatch) {
       })
       .catch(function (error) {
         toggleBlur();
-        toast.error(error.message);
+        toast.error(error.response.data);
       });
   };
   const handleUnLock = () => {
@@ -476,7 +476,7 @@ function returnModal(isOpen, isClose, trangthai, setTrangthai, data, dispatch) {
       })
       .catch(function (error) {
         toggleBlur();
-        toast.error(error.message);
+        toast.error(error.response.data);
       });
   };
   return (
