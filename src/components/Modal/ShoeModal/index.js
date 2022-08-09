@@ -89,6 +89,21 @@ export default function ShoeModal({ shoe, isOpen, isClose }) {
     getAllLabel();
     return () => {
       setData(null);
+      setName("");
+      setPrice("");
+      setDescription("");
+      setMaterial("");
+      setModel("");
+      setWeight("");
+      setLoai("");
+      setHang("");
+      setDanhMuc("");
+      setSize("");
+      setColor("");
+      setCount("");
+      setSizeName({});
+      setColorName({});
+      setSelectedList([]);
     };
   }, [shoe]);
 

@@ -50,6 +50,11 @@ export default function AccessoryModal({ accessory, isOpen, isClose }) {
     getAllType();
     return () => {
       setData(null);
+      setName("");
+      setPrice("");
+      setDescription("");
+      setLoai("");
+      setCount("");
     };
   }, [accessory]);
 
